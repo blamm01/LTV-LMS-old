@@ -6,6 +6,9 @@ import * as path from "path";
 import hbs from "hbs";
 import config from "config";
 
+// Import Routes
+import auth from "./routes/auth"
+
 // Config Variables
 const app = express();
 const server = createServer(app);
@@ -24,9 +27,7 @@ app.use(cookieParser());
 
 // Handle Routes
 app.use("/assets/", express.static(path.join(__dirname, "assets")));
-app.get("/", (req, res) => {
-  res.render("auth/login")
-})
+app.use("/auth/", auth)
 
 // Start the Server
 server.listen(PORT, undefined, undefined, () => {
