@@ -12,5 +12,8 @@
     },
     "db": {
         "uri": "mongodb+srv://admin:kmtqTN7znxiowQXM@ltv-lms.pofoc8d.mongodb.net/?retryWrites=true&w=majority"
+    },
+    "uuid": {
+        "namespace": "2167374c-fb29-4a4e-9bcb-1023eafc901b"
     }
 }
