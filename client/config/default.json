@@ -1,0 +1,13 @@
+{
+    "server": {
+        "port": 5000,
+        "link": "http://localhost:5000"
+    },
+    "client": {
+        "port": 3000,
+        "link": "http://localhost:3000"
+    },
+    "db": {
+        "uri": "mongodb+srv://admin:kmtqTN7znxiowQXM@ltv-lms.pofoc8d.mongodb.net/?retryWrites=true&w=majority"
+    }
+}
