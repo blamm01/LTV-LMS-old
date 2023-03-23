@@ -57,11 +57,7 @@ const schema = new mongoose.Schema<IUser>({
         default: false
     },
 
-    role: {
-        type: String,
-        required: true,
-        enum: RoleArrays
-    },
+    role: RoleArrays,
     departmentId: defaultType,
 
     status: {
