@@ -8,6 +8,8 @@ export interface IStudent extends mongoose.Document {
     dad: ParentType
     classes: mongoose.Types.Array<StudentClassType>,
     userId: string
+    createdAt: Date
+    updatedAt: Date
 }
 
 const schema = new mongoose.Schema<IStudent>({
@@ -16,6 +18,6 @@ const schema = new mongoose.Schema<IStudent>({
     dad: ParentSchemaObj,
     classes: [StudentClassSchemaObj],
     userId: String
-})
+}, { timestamps: true })
 
 export const studentModel = mongoose.model('students', schema)

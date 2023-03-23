@@ -7,6 +7,8 @@ export interface ITeacher extends mongoose.Document {
     subjectIds: Types.Array<string>
     classes: mongoose.Types.Array<TeacherClassType>,
     userId: string
+    createdAt: Date
+    updatedAt: Date
 }
 
 const schema = new mongoose.Schema<ITeacher>({
@@ -14,6 +16,6 @@ const schema = new mongoose.Schema<ITeacher>({
     classes: [TeacherClassSchemaObj],
     userId: String,
     subjectIds: [String]
-})
+}, { timestamps: true })
 
 export const studentModel = mongoose.model('students', schema)

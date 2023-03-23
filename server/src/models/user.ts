@@ -23,6 +23,9 @@ export interface IUser extends mongoose.Document {
     departmentId: string
 
     status: StatusesType
+
+    createdAt: Date
+    updatedAt: Date
 }
 
 const defaultType = {

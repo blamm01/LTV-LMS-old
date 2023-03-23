@@ -15,5 +15,11 @@
     },
     "uuid": {
         "namespace": "2167374c-fb29-4a4e-9bcb-1023eafc901b"
+    },
+    "jwt": {
+        "expiresIn": {
+            "number": 7889400000,
+            "text": "3 months"
+        }
     }
 }
