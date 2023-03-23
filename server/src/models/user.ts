@@ -1,17 +1,27 @@
-import mongoose, { AnyArray } from "mongoose"
-import { StatusesArray, StatusesType } from "../configurations/status"
+import mongoose, { Types } from "mongoose"
+import { GenderArrays } from "../typings/models/genders"
+import { RoleArrays, RoleType } from "../typings/models/roles"
+import { StatusesArray, StatusesType } from "../typings/models/status"
 
-interface IUser extends mongoose.Document {
+export interface IUser extends mongoose.Document {
     _id: string
+
+    avatar: string
     username: string
     password: string
     email: string
     phone: string
+    gender: string
+    
     address: string
-    baseId: string
-    roleId: string
-    memberId: string
-    permissions: mongoose.Types.Array<string>
+    birthday: Date
+    
+    permissions: Types.Array<string>
+    superuser: boolean
+    
+    role: RoleType
+    departmentId: string
+
     status: StatusesType
 }
 
@@ -22,19 +32,38 @@ const defaultType = {
 
 const schema = new mongoose.Schema<IUser>({
     _id: defaultType,
+
+    avatar: defaultType,
     username: defaultType,
     password: defaultType,
     email: defaultType,
     phone: defaultType,
-    address: defaultType,
-    baseId: defaultType,
-    roleId: defaultType,
-    memberId: defaultType,
-    permissions: {
-        type: Array,
-        default: [String],
-        required: false
+    gender: {
+        type: String,
+        required: true,
+        enum: GenderArrays
     },
+
+    address: defaultType,
+    birthday: {
+        type: Date,
+        required: true
+    },
+
+    permissions: [String],
+    superuser: {
+        type: Boolean,
+        required: false,
+        default: false
+    },
+
+    role: {
+        type: String,
+        required: true,
+        enum: RoleArrays
+    },
+    departmentId: defaultType,
+
     status: {
         type: String,
         required: true,
@@ -43,4 +72,4 @@ const schema = new mongoose.Schema<IUser>({
     }
 }, { timestamps: true })
 
-const userModel = mongoose.model('users', schema)
+export const userModel = mongoose.model('users', schema)
