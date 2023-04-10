@@ -9,7 +9,7 @@ import * as requestIp from "request-ip";
 import helmet from "helmet";
 import config from "config";
 import { EError } from "./typings/error";
-import { Request } from "./typings/express";
+import { ERequest } from "./typings/express";
 
 // Config Variables
 const app = express();
@@ -27,7 +27,7 @@ app.use(Fingerprint());
 app.use(helmet());
 app.use(cors());
 app.use(useragent.express());
-app.use(function (req: Request, res, next) {
+app.use(function (req: ERequest, res, next) {
   req.ipAddr = requestIp.getClientIp(req) || req.ip
   next();
 });
