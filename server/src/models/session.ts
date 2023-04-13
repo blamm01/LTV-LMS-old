@@ -5,6 +5,7 @@ export interface ISession extends mongoose.Document {
     _id: string
     userId: string
     expiresIn: number
+    ipAddr: string
 
     createdAt: Date
     updatedAt: Date
@@ -13,6 +14,7 @@ export interface ISession extends mongoose.Document {
 const schema = new mongoose.Schema<ISession>({
     _id: String,
     userId: String,
+    ipAddr: String,
     expiresIn: {
         type: Number,
         default: config.get("jwt.expiresIn.number")

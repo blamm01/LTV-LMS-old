@@ -1,14 +1,14 @@
 {
     "cors": {
-        "origins": ["http://lms.localhost"]
+        "origins": ["http://localhost:3000"]
     },
     "server": {
         "port": 5000,
-        "link": "http://api.lms.localhost"
+        "link": "http://localhost:5000"
     },
     "client": {
         "port": 3000,
-        "link": "http://lms.localhost"
+        "link": "http://localhost:3000"
     },
     "db": {
         "uri": "mongodb+srv://admin:kmtqTN7znxiowQXM@ltv-lms.pofoc8d.mongodb.net/?retryWrites=true&w=majority"
@@ -20,6 +20,10 @@
         "expiresIn": {
             "number": 7889400000,
             "text": "3 months"
-        }
+        },
+        "token": "onXSt3HIoG8aIZQnojInbCSRcnpMcuhhjB8WW0fozKWtr5Ww8J76pfOwvomBF5bcdVo3j51VV5o5G+eGrCUfwA=="
+    },
+    "bcrypt": {
+        "salt": 43
     }
 }
