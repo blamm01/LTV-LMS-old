@@ -18,9 +18,7 @@ export interface IUser extends mongoose.Document {
     
     permissions: Types.Array<string>
     superuser: boolean
-    
     role: RoleType
-    departmentId: string
 
     status: StatusesType
 
@@ -59,9 +57,7 @@ const schema = new mongoose.Schema<IUser>({
         required: false,
         default: false
     },
-
     role: RoleArrays,
-    departmentId: defaultType,
 
     status: {
         type: String,

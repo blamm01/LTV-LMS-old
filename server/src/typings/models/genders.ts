@@ -1,3 +1,3 @@
-export type GenderType = 'male' | 'female'
+export type GenderType = 'male' | 'female' | 'other'
 
-export const GenderArrays = ['male', 'female']
+export const GenderArrays = ['male', 'female', 'other']

@@ -1,11 +1,11 @@
 import { Router } from "express";
-import { LoginUser } from "../controllers/auth";
+import { createSession } from "../controllers/sessions";
 import { validate } from "../middlewares/validation";
 
 const router = Router();
 
 router.post(
-  "/login/",
+  "/create/",
   validate.body([
     {
       name: "username",
@@ -18,7 +18,7 @@ router.post(
       type: "string"
     },
   ]),
-  LoginUser
+  createSession
 );
 
-export default router;
+export = router;

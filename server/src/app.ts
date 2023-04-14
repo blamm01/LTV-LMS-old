@@ -40,6 +40,9 @@ app.use(function (req, res, next) {
   next();
 });
 
+// Use Routes
+app.use("/sessions/", require("./routes/sessions"))
+
 // Start the Server
 if (!mongoURI) throw new EError("No Mongo URI provided!", "NO_MONGO_URI");
 mongoose.set("strictQuery", true);

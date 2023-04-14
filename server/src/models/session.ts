@@ -19,6 +19,6 @@ const schema = new mongoose.Schema<ISession>({
         type: Number,
         default: config.get("jwt.expiresIn.number")
     }
-})
+}, { timestamps: true })
 
 export const sessionModel = mongoose.model('sessions', schema)

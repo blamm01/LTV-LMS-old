@@ -24,6 +24,6 @@
         "token": "onXSt3HIoG8aIZQnojInbCSRcnpMcuhhjB8WW0fozKWtr5Ww8J76pfOwvomBF5bcdVo3j51VV5o5G+eGrCUfwA=="
     },
     "bcrypt": {
-        "salt": 43
+        "salt": 12
     }
 }

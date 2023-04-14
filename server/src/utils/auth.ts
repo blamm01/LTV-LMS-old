@@ -69,7 +69,7 @@ export const generateToken = async (user: IUser, ipAddr: string) => {
   try {
     let session = await sessionModel.create({
       _id: generateUUID(),
-      user: user._id,
+      userId: user._id,
       ipAddr,
     });
 
@@ -80,7 +80,7 @@ export const generateToken = async (user: IUser, ipAddr: string) => {
 
     return {
       token: jwt.sign(payload, jwtToken, {
-        expiresIn: config.get("jwt.expiresIn.text") as string,
+        expiresIn: config.get("jwt.expiresIn.number") as number,
       }),
       session,
     };
