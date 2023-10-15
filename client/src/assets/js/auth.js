@@ -10,7 +10,12 @@ const submitButtonRipple = new MDCRipple(document.querySelector('.form__button-s
 const showPasswordIcon = document.querySelector(".form__field--password__show-password")
 showPasswordIcon.addEventListener("click", () => {
     const passwordInput = document.querySelector('.mdc-text-field.form__field--password input')
-    if(passwordInput.type == 'password')
+    if(passwordInput.type == 'password') {
         passwordInput.setAttribute("type", "text")
-    else passwordInput.setAttribute("type", "password")
+        showPasswordIcon.innerHTML = "visibility_off"
+    }
+    else {
+        passwordInput.setAttribute("type", "password")
+        showPasswordIcon.innerHTML = "visibility"
+    }
 })
