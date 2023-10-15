@@ -8,6 +8,7 @@ html,
 body {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
   min-height: 100%;
   min-width: 100%;
@@ -16,13 +17,12 @@ body {
 
 body {
   // position: fixed;
-  background: linear-gradient(
-    to right,
-    white 0%,
-    white 50%,
-    #0D47A1 50%,
-    #0D47A1 100%,
-  );
+  background: linear-gradient(to right,
+      white 0%,
+      white 50%,
+      #0D47A1 50%,
+      #0D47A1 100%,
+    );
 }
 
 .login-form {
@@ -31,13 +31,8 @@ body {
   border-radius: 8px;
   text-align: center;
   min-height: 500px;
-  width: 440px;
   overflow-wrap: break-word;
-  padding-top: 48px;
-  padding-bottom: 36px;
-  padding-inline: 40px;
-  position: relative;
-  margin: 48px;
+  padding: 48px;
 
   .form__icon {
     height: 100px;
@@ -58,7 +53,7 @@ body {
     width: 100%;
     margin: 8px 0;
   }
-  
+
   .form__button-container--left {
     justify-content: left;
   }
