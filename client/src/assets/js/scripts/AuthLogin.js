@@ -1,5 +1,7 @@
 import {MDCRipple} from '@material/ripple';
 import {MDCTextField} from '@material/textfield';
+import "../../scss/global.scss"
+import "../../scss/Auth.scss"
 
 const username = new MDCTextField(document.querySelector('.mdc-text-field.form__field--username'));
 const password = new MDCTextField(document.querySelector('.mdc-text-field.form__field--password'));

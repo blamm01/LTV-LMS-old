@@ -7,13 +7,16 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:prod": "ts-node ./src/app.ts",
     "start:dev": "npx nodemon ./src/app.ts",
-    "start:webpack": "npx webpack serve",
-    "build:all": "npm run build:ts && npm run build:sass && npm run build:webpack",
+    "start:pm2": "pm2 start --name LTV-LMS-Client --log app-log.txt --time npm -- run -- start:prod",
+    "build:all": "npm run clean && npm run build:sass && npm run build:webpack && npm run build:ts && npm run copy:files",
     "build:ts": "tsc",
     "build:sass": "npx sass ./src/assets/scss:./src/assets/css --load-path node_modules",
     "build:webpack": "npx webpack --mode production",
     "watch:sass": "npx sass --watch ./src/assets/scss:./src/assets/css --load-path=node_modules",
-    "watch:webpack": "npx webpack --mode development --watch"
+    "watch:webpack": "npx webpack --mode development --watch",
+    "clean": "npx rimraf build/",
+    "copy:files": "cp -r ./src/assets ./build && cp -r ./src/views ./build",
+    "copy:assets": "npx rimraf build/assets build/views && npm run copy:files"
   },
   "author": "",
   "license": "ISC",
@@ -21,6 +24,7 @@
     "@material/button": "^14.0.0",
     "@material/textfield": "^14.0.0",
     "@material/theme": "^14.0.0",
+    "@material/web": "^1.0.0",
     "axios": "^1.2.5",
     "config": "^3.3.9",
     "cookie-parser": "^1.4.6",
@@ -31,7 +35,9 @@
     "mongoose": "^6.9.0",
     "nodemon": "^2.0.20",
     "pm2": "^5.2.2",
-    "sass": "^1.57.1"
+    "rimraf": "^5.0.5",
+    "sass": "^1.57.1",
+    "sass-loader": "^13.3.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.12",
@@ -43,10 +49,13 @@
     "babel-loader": "^9.1.2",
     "babel-plugin-module-resolver": "^5.0.0",
     "compression-webpack-plugin": "^10.0.0",
+    "css-loader": "^6.8.1",
+    "style-loader": "^3.3.3",
     "ts-node": "^10.9.1",
     "typescript": "^4.9.4",
     "webpack": "^5.75.0",
     "webpack-cli": "^5.0.1",
-    "webpack-dev-server": "^4.13.1"
+    "webpack-dev-server": "^4.13.1",
+    "yarn": "^1.22.19"
   }
 }

@@ -1,10 +1,28 @@
 {
     "server": {
-        "port": 5000,
-        "link": "http://localhost:5000"
+        "online": {
+            "domain": "ltvlmstestapi.nhblam.space",
+            "protocol": "https",
+            "link": "https://ltvlmstestapi.nhblam.space"
+        },
+        "local": {
+            "protocol": "http",
+            "domain": "localhost",
+            "port": 3000,
+            "link": "http://localhost:5000"
+        }
     },
     "client": {
-        "port": 3000,
-        "link": "http://localhost:3000"
+        "online": {
+            "domain": "ltvlmstest.nhblam.space",
+            "protocol": "https",
+            "link": "https://ltvlmstest.nhblam.space"
+        },
+        "local": {
+            "protocol": "http",
+            "domain": "localhost",
+            "port": 3000,
+            "link": "http://localhost:3000"
+        }
     }
 }

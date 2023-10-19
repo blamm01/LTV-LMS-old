@@ -40,7 +40,7 @@ export const createSession = async (
         err
       );
     }
-    if(!session?.token || !session?.token) return CreateRespond.Unavailable(res, "Unable to create a session", "UNABLE_TO_CREATE_SESSION");
+    if(!session?.token || !session?.session) return CreateRespond.Unavailable(res, "Unable to create a session", "UNABLE_TO_CREATE_SESSION");
     return CreateRespond.OK(
         res,
         "Session created",
