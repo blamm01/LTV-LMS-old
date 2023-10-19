@@ -47,16 +47,19 @@ const router = async () => {
     document.querySelector("#app").innerHTML = await view.getHtml();
     
     const scripts = view.getScripts()
-    if(scripts.length > 0) await Promise.all(scripts.map(v => fetch(v).then(res => res.text()).then(v => eval(v))))
+    if(scripts?.length > 0) await Promise.all(scripts.map(v => fetch(v).then(res => res.text()).then(v => eval(v))))
 };
 
 window.addEventListener("popstate", router);
 
 document.addEventListener("DOMContentLoaded", () => {
+    let er
     document.body.addEventListener("click", e => {
         if (e.target.matches("[data-link]")) {
             e.preventDefault();
-            navigateTo(e.target.href);
+            const link = e.target.attributes.getNamedItem("data-link").value || e.target.href
+            if(!link || typeof link != "string" || !link.startsWith("/")) location.reload()
+            else navigateTo(link);
         }
     });
 

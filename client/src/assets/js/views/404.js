@@ -8,7 +8,7 @@ export default class extends AbstractView {
 
     async getHtml() {
         return `
-        404
+            <button data-link="/auth/login"></button>
         `;
     }
 }
