@@ -44,7 +44,7 @@ export default class extends AbstractView {
             </button>
         </div>
         <div class="form__button-container form__button-container--right">
-            <button class="form__button-submit mdc-button mdc-button--raised mdc-button--leading" type="submit">
+            <button class="form__button-submit mdc-button mdc-button--raised mdc-button--leading" data-link="/" href="/">
                 <span class="mdc-button__ripple"></span>
                 <span class="mdc-button__label">Đăng nhập</span>
             </button>

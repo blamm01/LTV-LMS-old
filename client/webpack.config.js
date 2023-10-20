@@ -7,14 +7,14 @@ module.exports = {
   //   obj[path.parse(el).name] = el;
   //   return obj;
   // }, {}),
-  entry: {
-    global: './src/assets/js/global.js',
-    router: './src/assets/js/router.js',
-    "views/AbstractView": './src/assets/js/views/AbstractView.js',
-    "views/AuthLogin": './src/assets/js/views/AuthLogin.js',
-    "views/404": './src/assets/js/views/404.js',
-    "scripts/AuthLogin": './src/assets/js/scripts/AuthLogin.js',
-  },
+  entry: glob.sync("./src/assets/**/*.js").reduce((acc, cur) => {
+    if(!cur.includes("dist")) {
+      let splitted = cur.split("/")
+      let index = splitted.findIndex(v => v == "js")
+      let key = splitted.slice(index + 1, splitted.length).join("/")
+      return { [key.slice(0, key.indexOf(".js"))]: cur, ...acc }
+    } else return {}
+  }, {}),
   output: {
     path: path.resolve(__dirname, "src", "assets", "dist"),
     filename: "[name].js",

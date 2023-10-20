@@ -16,8 +16,6 @@ const render_variables = {
   server: config.get("server")
 }
 
-console.log(render_variables)
-
 // Config Application
 app.set("view engine", "hbs");
 app.set("views", path.join(__dirname, "pages"));
@@ -36,5 +34,3 @@ app.get("/*", (req, res) => {
 server.listen(PORT, undefined, undefined, () => {
   console.log("Server is listening on port " + PORT);
 });
-
-console.log(glob.sync("./src/assets/**/*.js"))

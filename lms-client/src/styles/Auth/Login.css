@@ -1,0 +1,22 @@
+.form .form__inputs {
+  width: 100%;
+}
+
+.form__inputs .form__field {
+  width: 100%;
+  margin: 8px 0;
+}
+
+.form .form__button-container {
+  display: flex;
+  width: 100%;
+  margin: 8px 0;
+}
+
+.form__button-container--left {
+  justify-content: left;
+}
+
+.form__button-container--right {
+  justify-content: right;
+}
