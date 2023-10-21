@@ -15,18 +15,18 @@ export const createSession = async (
     if (!user)
       return CreateRespond.Unauthorized(
         res,
-        "Incorrect login credentials",
+        "Sai tên đăng nhập hoặc mật khẩu",
         "INVALID_CREDENTIALS"
       );
     if (!(await comparePassword(password, user.password)))
       return CreateRespond.Unauthorized(
         res,
-        "Incorrect login credentials",
+        "Sai tên đăng nhập hoặc mật khẩu",
         "INVALID_CREDENTIALS"
       );
     if(user.status != 'active') return CreateRespond.Unauthorized(
       res,
-      "This account has been deactivated",
+      "Tài khoản đã bị vô hiệu hoá",
       "ACCOUNT_INACTIVE"
     )
     let session;
@@ -35,12 +35,12 @@ export const createSession = async (
     } catch (err: any) {
       CreateRespond.Unavailable(
         res,
-        err?.message || "An error occured",
+        err?.message || "Lỗi không xác định",
         err?.code,
         err
       );
     }
-    if(!session?.token || !session?.session) return CreateRespond.Unavailable(res, "Unable to create a session", "UNABLE_TO_CREATE_SESSION");
+    if(!session?.token || !session?.session) return CreateRespond.Unavailable(res, "Không thể tạo phiên đăng nhập", "UNABLE_TO_CREATE_SESSION");
     return CreateRespond.OK(
         res,
         "Session created",
@@ -50,6 +50,6 @@ export const createSession = async (
         }
     )
   } catch (err) {
-    CreateRespond.Unavailable(res, "An error occured", "UNKNOWN_ERROR", err);
+    CreateRespond.Unavailable(res, "Lỗi không xác định", "UNKNOWN_ERROR", err);
   }
 };

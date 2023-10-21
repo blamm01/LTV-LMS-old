@@ -4,6 +4,7 @@ import { ParentSchemaObj, ParentType } from "../../typings/models/parent"
 
 export interface IStudent extends mongoose.Document {
     _id: string
+    code: string
     mom: ParentType
     dad: ParentType
     classes: mongoose.Types.Array<StudentClassType>,
@@ -14,6 +15,7 @@ export interface IStudent extends mongoose.Document {
 
 const schema = new mongoose.Schema<IStudent>({
     _id: String,
+    code: String,
     mom: ParentSchemaObj,
     dad: ParentSchemaObj,
     classes: [StudentClassSchemaObj],

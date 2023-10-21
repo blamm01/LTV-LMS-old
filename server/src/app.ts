@@ -10,6 +10,7 @@ import helmet from "helmet";
 import config from "config";
 import { EError } from "./typings/error";
 import { ERequest } from "./typings/express";
+import { hashPassword } from "./utils/auth";
 
 // Config Variables
 const app = express();
@@ -42,13 +43,14 @@ app.use(function (req, res, next) {
 
 // Use Routes
 app.use("/sessions/", require("./routes/sessions"))
+app.use("/users", require("./routes/users"))
 
 // Start the Server
 if (!mongoURI) throw new EError("No Mongo URI provided!", "NO_MONGO_URI");
 mongoose.set("strictQuery", true);
 mongoose
   .connect(mongoURI)
-  .then(() => {
+  .then(async() => {
     console.log("Connected to MongoDB");
     server.listen(PORT, undefined, undefined, () => {
       console.log("Server is listening on port " + PORT);

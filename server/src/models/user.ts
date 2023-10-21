@@ -57,7 +57,11 @@ const schema = new mongoose.Schema<IUser>({
         required: false,
         default: false
     },
-    role: RoleArrays,
+    role: {
+        type: String,
+        required: true,
+        enum: RoleArrays
+    },
 
     status: {
         type: String,

@@ -3,27 +3,27 @@
         "origins": ["http://localhost:3000"]
     },
     "server": {
-        "port": 5000,
-        "link": "http://localhost:5000"
+        "port": 5001,
+        "link": "http://localhost:5001"
     },
     "client": {
         "port": 3000,
         "link": "http://localhost:3000"
     },
     "db": {
-        "uri": "mongodb+srv://admin:kmtqTN7znxiowQXM@ltv-lms.pofoc8d.mongodb.net/?retryWrites=true&w=majority"
+        "uri": "mongodb+srv://lms-server:2h6KmuSsyaxVbgzR@ltv-lms.udnre0b.mongodb.net/main?retryWrites=true&w=majority"
     },
     "uuid": {
-        "namespace": "2167374c-fb29-4a4e-9bcb-1023eafc901b"
+        "namespace": "2d6f3915-8f9b-4f97-b0aa-fd15b676dcce"
     },
     "jwt": {
         "expiresIn": {
             "number": 7889400000,
             "text": "3 months"
         },
-        "token": "onXSt3HIoG8aIZQnojInbCSRcnpMcuhhjB8WW0fozKWtr5Ww8J76pfOwvomBF5bcdVo3j51VV5o5G+eGrCUfwA=="
+        "token": "EWbg1ZMe6BwPUD/Nxp9xrdzOiE83pXO8rbovukLwA2XyA6WuEN9mW/HwZrGKbXIq8Ssl+U5EIcb4jiO/BU+Vkw=="
     },
     "bcrypt": {
-        "salt": 24
+        "salt": 12
     }
 }

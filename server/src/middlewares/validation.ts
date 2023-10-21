@@ -52,9 +52,9 @@ export const validate = {
       if (failures.length > 0)
         return CreateRespond.BadRequest(
           res,
-          `Validation Failed! Missing or sending wrong type of ${failures.join(
+          `Xác minh dữ liệu không thành công đối với các trường: ${failures.join(
             ", "
-          )} fields.`,
+          )}`,
           "INVALID_FORM_BODY"
         );
       else return next();
@@ -74,7 +74,7 @@ export const validate = {
       if (failures.length > 0)
         return CreateRespond.BadRequest(
           res,
-          `Validation Failed! Missing or sending wrong type of ${failures.join(
+          `Xác minh dữ liệu không thành công đối với các trường: ${failures.join(
             ", "
           )} fields.`,
           "INVALID_FORM_HEADER"

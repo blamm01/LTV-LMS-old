@@ -4,7 +4,7 @@ import * as jwt from "jsonwebtoken";
 import { EError } from "../typings/error";
 import { ISession, sessionModel } from "../models/session";
 import { IUser, userModel } from "../models/user";
-import { generateUUID } from "./mongoose";
+import { generateObjectID, generateUUID } from "./mongoose";
 
 interface SessionPayload {
   sessionId: string;
@@ -30,28 +30,28 @@ export const verifyToken = async (token: string) => {
     try {
       payload = jwt.verify(token, jwtToken) as SessionPayload;
     } catch (err) {
-      throw new EError(`Invalid JWT Token | ${err}`, "INVALID_TOKEN");
+      throw new EError(`Token đăng nhập không hợp lệ`, "INVALID_TOKEN");
     }
 
     const session = await sessionModel.findOne({
       _id: payload.sessionId,
       userId: payload.userId,
     });
-    if (!session) throw new EError("Invalid Session", "INVALID_SESSION");
+    if (!session) throw new EError("Phiên đăng nhập không hợp lệ", "INVALID_SESSION");
     if (
       Date.now() >=
       session.createdAt.getTime() +
         (config.get("jwt.expiresIn.number") as number)
     ) {
       await sessionModel.deleteOne({ _id: session._id });
-      throw new EError("Session expired", "SESSION_EXPIRED");
+      throw new EError("Phiên đăng nhập đã hết hạn", "SESSION_EXPIRED");
     }
 
     const user = await userModel.findById(session.userId);
     if (!user) {
       await sessionModel.deleteOne({ _id: session._id });
       throw new EError(
-        "User linked to this session is not existed",
+        "Tài khoản đang liên kết với phiên đăng nhập không tồn tại",
         "LINKED_USER_NOT_EXIST"
       );
     }
@@ -60,15 +60,15 @@ export const verifyToken = async (token: string) => {
       user,
       session,
     };
-  } catch (err) {
-    throw new EError(`Unknown Error: ${err}`, "UNKNOWN_ERROR");
+  } catch (err: any) {
+    throw new EError(`${err}`, err?.code || "UNKNOWN_ERROR");
   }
 };
 
 export const generateToken = async (user: IUser, ipAddr: string) => {
   try {
     let session = await sessionModel.create({
-      _id: generateUUID(),
+      _id: generateUUID(`${user._id}_session_${ipAddr}_${generateObjectID()}`),
       userId: user._id,
       ipAddr,
     });
