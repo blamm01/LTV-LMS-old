@@ -76,7 +76,7 @@ export const validate = {
           res,
           `Xác minh dữ liệu không thành công đối với các trường: ${failures.join(
             ", "
-          )} fields.`,
+          )}`,
           "INVALID_FORM_HEADER"
         );
       else return next();
