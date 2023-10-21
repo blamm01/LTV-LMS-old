@@ -2,7 +2,7 @@ import { Checkbox, FormControlLabel, TextField } from "@mui/material";
 import "../../styles/Auth/Root.css";
 import "../../styles/Auth/Login.css";
 import icon from "../../assets/ltv_logo.ico";
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
 import { Box } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { LoadingButton } from "@mui/lab";
@@ -10,7 +10,8 @@ import TopCenterSnackbar from "../../components/Snackbar";
 import AuthLayout from "../../components/AuthLayout";
 import axios from "axios";
 import { API_ROUTES } from "../../constants/api";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/AuthProvider";
 
 function ShowPassword({ isShowPassword, setIsShowPassword, disabled }) {
   function handleClick() {
@@ -28,15 +29,26 @@ function ShowPassword({ isShowPassword, setIsShowPassword, disabled }) {
 }
 
 export default function AuthLogin() {
+  const { state: prevState } = useLocation()
   const [isShowPassword, setIsShowPassword] = useState(false);
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [snackbar, setSnackbar] = useState({
     severity: "info",
-    text: "Waiting for logging in...",
+    text: "Đang đợi yêu cầu đăng nhập...",
   });
   const [snackbarOpened, setSnackbarOpened] = useState(false);
   const { register, handleSubmit } = useForm();
   const navigate = useNavigate()
+  const { setAuth } = useContext(AuthContext)
+  useEffect(() => {
+    if(prevState?.previous?.pathname) {
+      setSnackbar({
+        severity: "info",
+        text: prevState?.message || "Bạn cần đăng nhập để tiếp tục"
+      })
+      setSnackbarOpened(true)
+    }
+  }, [])
 
   function submitForm(data) {
     setIsLoggingIn(true)
@@ -52,12 +64,13 @@ export default function AuthLogin() {
           severity: "info",
           text: "Đang chuyển hướng"
         })
-        localStorage.setItem("auth", JSON.stringify({
-          token: data.data.token,
+        setAuth({
+          authenticated: true,
           session: data.data.session,
-          user: data.data.user
-        }))
-        navigate('/')
+          user: data.data.user,
+          token: data.data.token
+        })
+        navigate(prevState?.previous?.pathname || '/')
       }
       setSnackbarOpened(true)
     }, (error) => {

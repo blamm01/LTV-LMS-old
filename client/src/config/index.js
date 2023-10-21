@@ -8,8 +8,8 @@ export const config = {
         "local": {
             "protocol": "http",
             "domain": "localhost",
-            "port": 5001,
-            "link": "http://localhost:5001"
+            "port": 5002,
+            "link": "http://localhost:5002"
         }
     },
     "client": {

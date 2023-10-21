@@ -3,8 +3,8 @@
         "origins": ["http://localhost:3000"]
     },
     "server": {
-        "port": 5001,
-        "link": "http://localhost:5001"
+        "port": 5002,
+        "link": "http://localhost:5002"
     },
     "client": {
         "port": 3000,
