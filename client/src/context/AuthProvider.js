@@ -36,7 +36,7 @@ export const AuthProvider = ({ children }) => {
                 if(error?.response?.data?.success === false) setAuth(initialValue)
             })
         }
-    }, [])
+    })
 
     return (
         <AuthContext.Provider value={value}>

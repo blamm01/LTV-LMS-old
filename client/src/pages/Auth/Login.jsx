@@ -48,7 +48,7 @@ export default function AuthLogin() {
       })
       setSnackbarOpened(true)
     }
-  }, [])
+  }, [prevState.previous.pathname, prevState.message])
 
   function submitForm(data) {
     setIsLoggingIn(true)
