@@ -46,6 +46,8 @@ export const createSession = async (
         "Session created",
         {
             token: session.token,
+            user,
+            session: session.session,
             duration: config.get("jwt.expiresIn.number")
         }
     )

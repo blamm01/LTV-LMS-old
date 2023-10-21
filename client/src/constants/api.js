@@ -1,6 +1,6 @@
 import { config } from "../config/index.js"
 
-const API = config.server.local.link
+const API = process.env.NODE_ENV === 'production' ? config.server.online.link : config.server.local.link
 
 export const API_ROUTES = {
     LOGIN: `${API}/sessions/create`,

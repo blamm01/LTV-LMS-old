@@ -2,12 +2,18 @@ import { NextFunction } from "express";
 import { ERequest, EResponse } from "../typings/express";
 import { verifyToken } from "../utils/auth";
 import { CreateRespond } from "../utils/express";
-import config from "config";
+import { validate } from "./validation";
 
-export function checkAuth(
+export function checkAuthProcess(
   stopIfNotAuth: true | false = true,
 ) {
-  return async function (req: ERequest, res: EResponse, next: NextFunction) {
+  return [validate.header([
+    {
+      name: "authorization",
+      required: true,
+      type: "string"
+    }
+  ]), async function (req: ERequest, res: EResponse, next: NextFunction) {
     let token = req.headers["authorization"];
     if (token?.startsWith("Bearer ")) token = token.slice(7);
     token = token!;
@@ -41,5 +47,5 @@ export function checkAuth(
       session: data.session
     };
     next();
-  };
+  }];
 }
