@@ -2,8 +2,8 @@ import { Outlet } from "react-router-dom";
 import "../../styles/Auth/Root.css";
 export default function Auth() {
   return (
-      <form className="form">
-        <Outlet />
-      </form>
+    <div className="auth_container">
+      <Outlet />
+    </div>
   );
 }
