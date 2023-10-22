@@ -13,7 +13,10 @@ export interface ISession extends mongoose.Document {
 
 const schema = new mongoose.Schema<ISession>({
     _id: String,
-    userId: String,
+    userId: {
+        type: String,
+        ref: 'users'
+    },
     ipAddr: String,
     expiresIn: {
         type: Number,

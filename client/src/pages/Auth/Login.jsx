@@ -39,6 +39,7 @@ export default function AuthLogin() {
   const navigate = useNavigate();
   const { setAuth } = useContext(AuthContext);
   useEffect(() => {
+    document.title = "LTV LMS - Đăng nhập"
     if (prevState?.previous?.pathname) {
       setSnackbar({
         severity: "info",
@@ -95,7 +96,7 @@ export default function AuthLogin() {
   }
 
   return (
-    <>
+    <div className="auth_container">
       <TopCenterSnackbar
         setOpen={setSnackbarOpened}
         open={snackbarOpened}
@@ -148,6 +149,6 @@ export default function AuthLogin() {
           </LoadingButton>
         </div>
       </form>
-    </>
+    </div>
   );
 }

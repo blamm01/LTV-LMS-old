@@ -1,6 +1,5 @@
 import mongoose, { Types } from "mongoose"
 import { GenderArrays } from "../typings/models/genders"
-import { RoleArrays, RoleType } from "../typings/models/roles"
 import { StatusesArray, StatusesType } from "../typings/models/status"
 
 export interface IUser extends mongoose.Document {
@@ -16,9 +15,10 @@ export interface IUser extends mongoose.Document {
     address: string
     birthday: Date
     
-    permissions: Types.Array<string>
+    role: 'student' | 'teacher' | string
+
+    add_permissions: Types.Array<string>
     superuser: boolean
-    role: RoleType
 
     status: StatusesType
 
@@ -45,24 +45,13 @@ const schema = new mongoose.Schema<IUser>({
         enum: GenderArrays
     },
 
+    role: String,
+
     address: defaultType,
     birthday: {
         type: Date,
         required: true
     },
-
-    permissions: [String],
-    superuser: {
-        type: Boolean,
-        required: false,
-        default: false
-    },
-    role: {
-        type: String,
-        required: true,
-        enum: RoleArrays
-    },
-
     status: {
         type: String,
         required: true,
