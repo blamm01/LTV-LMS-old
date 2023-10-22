@@ -12,7 +12,10 @@ export interface EResponse extends express.Response {
         info?: {
             user: IUser,
             session: ISession,
-            permissions: permsType
+            permissions: {
+                permObj: permsType,
+                superuser: boolean
+            }
             isPermitted: boolean
         }
     }

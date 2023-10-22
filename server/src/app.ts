@@ -43,6 +43,7 @@ app.use(function (req, res, next) {
 // Use Routes
 app.use("/sessions/", require("./routes/sessions"))
 app.use("/users", require("./routes/users"))
+app.use("/permissions", require("./routes/permissions"))
 
 // Start the Server
 if (!mongoURI) throw new EError("No Mongo URI provided!", "NO_MONGO_URI");

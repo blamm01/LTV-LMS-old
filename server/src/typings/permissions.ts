@@ -77,6 +77,18 @@ const perms = {
   semesters: ["MANAGE_SEMESTERS"],
 };
 
+export const defaultPerm = {
+  students: [],
+  teachers: [],
+  staff: [],
+  classes: [],
+  grades: [],
+  subjects: [],
+  scores: [],
+  generations: [],
+  semesters: []
+}
+
 export const mongooseSchemaPerms = {
   students: [{ type: Array, enum: perms.students }],
   teachers: [{ type: Array, enum: perms.teachers }],

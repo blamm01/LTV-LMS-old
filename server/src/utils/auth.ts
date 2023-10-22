@@ -96,7 +96,9 @@ export const generateToken = async (user: IUser, ipAddr: string) => {
   }
 };
 
-export const getPermissions = async (user: IUser): Promise<permsType> => {
+export const getPermissions = async (
+  user: IUser
+): Promise<{ permObj: permsType; superuser: boolean }> => {
   const role = user.role;
   const permission = await permissionModel.findOne({ belongTo: role });
   if (!permission) {
@@ -105,15 +107,22 @@ export const getPermissions = async (user: IUser): Promise<permsType> => {
       "PERMISSION_DATA_NOT_EXIST"
     );
   }
-  return permission.permObj;
+  return {
+    permObj: permission.permObj,
+    superuser: permission.superuser,
+  };
 };
 
 export const checkPerms = (
   include: permsTypeOptional,
   required: permsTypeOptional,
-  perms: permsType
+  perms: permsType,
+  requiredSuperuser: boolean = false,
+  isSuperuser: boolean = false
 ) => {
   let passed = true;
+  if (isSuperuser) return true;
+  if(requiredSuperuser && !isSuperuser) return false
   Object.keys(required).forEach((key) => {
     const arr = required[key as keyof typeof required];
     if (!arr || !Array.isArray(arr)) passed = false;
@@ -129,9 +138,11 @@ export const checkPerms = (
     if (!arr || !Array.isArray(arr)) passed = false;
     else if (
       arr.length > 0 &&
-      arr.map((v: string) =>
-        (perms[key as keyof typeof perms] as string[]).includes(v)
-      ).filter(v => v).length == 0
+      arr
+        .map((v: string) =>
+          (perms[key as keyof typeof perms] as string[]).includes(v)
+        )
+        .filter((v) => v).length == 0
     )
       passed = false;
   });
