@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { LoadingButton } from "@mui/lab";
 import TopCenterSnackbar from "../../components/Snackbar";
 import axios from "axios";
+import "../../styles/Auth/Root.css"
 import { API_ROUTES } from "../../constants/api";
 import { useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthProvider";
