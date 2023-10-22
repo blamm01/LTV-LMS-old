@@ -1,27 +1,26 @@
 import { Route, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
 import AuthLogin from "../pages/Auth/Login";
-import { useContext } from "react";
-import { AuthContext } from "../context/AuthProvider";
 import ProtectedRoute from "../components/ProtectedRoute";
+import AuthLayout from "../components/AuthLayout";
+import Root from "../pages/Home/Root";
+import MainLayout from "../components/MainLayout";
+import Dashboard from "../pages/Dashboard/Root";
 
 export const APP_ROUTES = {
-    LOGIN: "/auth/login"
-}
-
-export function Root() {
-    const { auth } = useContext(AuthContext)
-    return (
-        <pre>{JSON.stringify(auth, null, 2)}</pre>
-    )
+    LOGIN: "/auth/login",
+    DASHBOARD: "/dashboard/"
 }
 
 export const router = createBrowserRouter(
     createRoutesFromElements(
         <>
-            <Route exact path="/" element={<ProtectedRoute />}>
-                <Route path="/" element={<Root />} />
+            <Route path="/" element={<Root />} />
+            <Route element={<AuthLayout />}>
+                <Route path="/auth/login" element={<AuthLogin />} />
             </Route>
-            <Route path="/auth/login" element={<AuthLogin />} />
+            <Route element={<ProtectedRoute><MainLayout /></ProtectedRoute>}>
+                <Route path="/dashboard" element={Dashboard} />
+            </Route>
         </>
     )
 )

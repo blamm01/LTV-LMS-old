@@ -1,17 +1,15 @@
 import { Checkbox, FormControlLabel, TextField } from "@mui/material";
-import "../../styles/Auth/Root.css";
-import "../../styles/Auth/Login.css";
 import icon from "../../assets/ltv_logo.ico";
 import { useState, useContext, useEffect } from "react";
 import { Box } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { LoadingButton } from "@mui/lab";
 import TopCenterSnackbar from "../../components/Snackbar";
-import AuthLayout from "../../components/AuthLayout";
 import axios from "axios";
 import { API_ROUTES } from "../../constants/api";
 import { useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthProvider";
+import { APP_ROUTES } from "../../routes";
 
 function ShowPassword({ isShowPassword, setIsShowPassword, disabled }) {
   function handleClick() {
@@ -29,7 +27,7 @@ function ShowPassword({ isShowPassword, setIsShowPassword, disabled }) {
 }
 
 export default function AuthLogin() {
-  const { state: prevState } = useLocation()
+  const { state: prevState } = useLocation();
   const [isShowPassword, setIsShowPassword] = useState(false);
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [snackbar, setSnackbar] = useState({
@@ -38,54 +36,66 @@ export default function AuthLogin() {
   });
   const [snackbarOpened, setSnackbarOpened] = useState(false);
   const { register, handleSubmit } = useForm();
-  const navigate = useNavigate()
-  const { setAuth } = useContext(AuthContext)
+  const navigate = useNavigate();
+  const { setAuth } = useContext(AuthContext);
   useEffect(() => {
-    if(prevState?.previous?.pathname) {
+    if (prevState?.previous?.pathname) {
       setSnackbar({
         severity: "info",
-        text: prevState?.message || "Bạn cần đăng nhập để tiếp tục"
-      })
-      setSnackbarOpened(true)
+        text: prevState?.message || "Bạn cần đăng nhập để tiếp tục",
+      });
+      setSnackbarOpened(true);
     }
-  }, [prevState.previous.pathname, prevState.message])
+  }, [prevState?.previous?.pathname, prevState?.message]);
 
   function submitForm(data) {
-    setIsLoggingIn(true)
-    axios.post(API_ROUTES.LOGIN, data)
-    .then((response) => {
-      const data = response.data
-      if(!data?.success || !data?.data?.token || !data?.data?.user || !data?.data?.session) setSnackbar({
-        severity: "error",
-        text: data?.message || "Lỗi không xác định"
-      }) && setIsLoggingIn(false)
-      else {
+    setIsLoggingIn(true);
+    axios.post(API_ROUTES.LOGIN, data).then(
+      (response) => {
+        const data = response.data;
+        if (
+          !data?.success ||
+          !data?.data?.token ||
+          !data?.data?.user ||
+          !data?.data?.session
+        )
+          setSnackbar({
+            severity: "error",
+            text: data?.message || "Lỗi không xác định",
+          }) && setIsLoggingIn(false);
+        else {
+          setSnackbar({
+            severity: "info",
+            text: "Đang chuyển hướng",
+          });
+          setAuth({
+            authenticated: true,
+            session: data.data.session,
+            user: data.data.user,
+            token: data.data.token,
+          });
+          if (prevState?.previous && prevState?.previous?.pathname)
+            navigate(prevState.previous.pathname);
+          else navigate(APP_ROUTES.DASHBOARD);
+        }
+        setSnackbarOpened(true);
+      },
+      (error) => {
+        console.log(error);
         setSnackbar({
-          severity: "info",
-          text: "Đang chuyển hướng"
-        })
-        setAuth({
-          authenticated: true,
-          session: data.data.session,
-          user: data.data.user,
-          token: data.data.token
-        })
-        navigate(prevState?.previous?.pathname || '/')
+          severity: "error",
+          text:
+            error?.response?.data?.message ||
+            "Lỗi không xác định khi yêu cầu lên máy chủ",
+        });
+        setSnackbarOpened(true);
+        setIsLoggingIn(false);
       }
-      setSnackbarOpened(true)
-    }, (error) => {
-      console.log(error)
-      setSnackbar({
-        severity: "error",
-        text: error?.response?.data?.message || "Lỗi không xác định khi yêu cầu lên máy chủ"
-      })
-      setSnackbarOpened(true)
-      setIsLoggingIn(false)
-    })
+    );
   }
 
   return (
-    <AuthLayout>
+    <>
       <TopCenterSnackbar
         setOpen={setSnackbarOpened}
         open={snackbarOpened}
@@ -138,6 +148,6 @@ export default function AuthLogin() {
           </LoadingButton>
         </div>
       </form>
-    </AuthLayout>
+    </>
   );
 }

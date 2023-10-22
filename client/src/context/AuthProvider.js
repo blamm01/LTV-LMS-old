@@ -11,7 +11,12 @@ const initialValue = {
     token: ""
 }
 
-export const AuthContext = createContext({})
+const authContextInitVal = {
+    auth: initialValue,
+    setAuth: (value) => null
+}
+
+export const AuthContext = createContext(authContextInitVal)
 
 export const AuthProvider = ({ children }) => {
     const [auth, setAuth] = useLocalStorage("auth", initialValue)
@@ -19,6 +24,7 @@ export const AuthProvider = ({ children }) => {
         setAuth,
         auth
     }
+
     useEffect(() => {
         if(auth?.token) {
             axios.get(API_ROUTES.GET_ME, {
@@ -28,9 +34,10 @@ export const AuthProvider = ({ children }) => {
             }).then((response) => {
                 let data = response.data
                 if(!_.isEqual(data?.user, auth.user) || !_.isEqual(data?.session, auth.session)) setAuth({
-                    ...auth,
+                    authenticated: true,
+                    session: data?.session,
                     user: data?.user,
-                    session: data?.session
+                    token: auth.token
                 })
             }, (error) => {
                 if(error?.response?.data?.success === false) setAuth(initialValue)

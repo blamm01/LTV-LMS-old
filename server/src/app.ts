@@ -10,7 +10,6 @@ import helmet from "helmet";
 import config from "config";
 import { EError } from "./typings/error";
 import { ERequest } from "./typings/express";
-import { hashPassword } from "./utils/auth";
 
 // Config Variables
 const app = express();
