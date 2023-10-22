@@ -57,7 +57,7 @@ export type permsTypeOptional = {
   semesters?: Array<"MANAGE_SEMESTERS">;
 };
 
-const perms = {
+export const allPermsList = {
   students: [
     "MANAGE_ALL_STUDENTS",
     "MANAGE_OWN_STUDENTS",
@@ -90,18 +90,18 @@ export const defaultPerm = {
 }
 
 export const mongooseSchemaPerms = {
-  students: [{ type: Array, enum: perms.students }],
-  teachers: [{ type: Array, enum: perms.teachers }],
-  staff: [{ type: Array, enum: perms.staff }],
-  classes: [{ type: Array, enum: perms.classes }],
-  grades: [{ type: Array, enum: perms.grades }],
-  subjects: [{ type: Array, enum: perms.subjects }],
-  scores: [{ type: Array, enum: perms.scores }],
-  generations: [{ type: Array, enum: perms.generations }],
-  semesters: [{ type: Array, enum: perms.semesters }],
+  students: [{ type: Array, enum: allPermsList.students }],
+  teachers: [{ type: Array, enum: allPermsList.teachers }],
+  staff: [{ type: Array, enum: allPermsList.staff }],
+  classes: [{ type: Array, enum: allPermsList.classes }],
+  grades: [{ type: Array, enum: allPermsList.grades }],
+  subjects: [{ type: Array, enum: allPermsList.subjects }],
+  scores: [{ type: Array, enum: allPermsList.scores }],
+  generations: [{ type: Array, enum: allPermsList.generations }],
+  semesters: [{ type: Array, enum: allPermsList.semesters }],
 };
 
-const perms_explanation = {
+export const perms_explanation = {
   students: {
     MANAGE_ALL_STUDENTS: "Quản lý tất cả học sinh",
     MANAGE_OWN_STUDENTS: "Quản lý học sinh của lớp chủ nhiệm",
