@@ -1,5 +1,5 @@
 import { Checkbox, FormControlLabel, TextField } from "@mui/material";
-import icon from "../../assets/ltv_logo.ico";
+import icon from "../../assets/icons/ltv_logo.ico";
 import { useState, useContext, useEffect } from "react";
 import { Box } from "@mui/material";
 import { useForm } from "react-hook-form";

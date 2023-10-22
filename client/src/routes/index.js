@@ -16,9 +16,7 @@ export const router = createBrowserRouter(
             <Route path="/" element={<Root />} />
             <Route path={APP_ROUTES.LOGIN} element={<AuthLogin />} />
             <Route element={<ProtectedRoute><MainLayout /></ProtectedRoute>}>
-                <Route path='/ok1' element={<Dashboard test='/ok2' />} />
-                <Route path='/ok2' element={<Dashboard test='/ok3' />} />
-                <Route path='/ok3' element={<Dashboard test='/ok1' />} />
+                <Route path={APP_ROUTES.DASHBOARD} element={<Dashboard />} />
             </Route>
         </>
     )
