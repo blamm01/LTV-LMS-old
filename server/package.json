@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
-    "start:prod": "ts-node ./src/app.ts",
+    "start:prod": "NODE_ENV=production ts-node ./src/app.ts",
     "start:dev": "npx nodemon ./src/app.ts"
   },
   "author": "",
