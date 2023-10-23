@@ -2,7 +2,7 @@ import { Checkbox, FormControlLabel, TextField } from "@mui/material";
 import icon from "../../assets/icons/ltv_logo.ico";
 import { useState, useContext, useEffect } from "react";
 import { Box } from "@mui/material";
-import { useForm } from "react-hook-form";
+import { Form, useForm } from "react-hook-form";
 import { LoadingButton } from "@mui/lab";
 import TopCenterSnackbar from "../../components/Snackbar";
 import axios from "axios";
@@ -106,7 +106,7 @@ export default function AuthLogin() {
       />
       <form className="form" onSubmit={handleSubmit(submitForm)}>
         <img className="form__icon" src={icon} alt="" />
-        <div className="form__inputs">
+        <Box className="form__inputs">
           <TextField
             {...{ disabled: isLoggingIn }}
             {...register("username")}
@@ -124,8 +124,8 @@ export default function AuthLogin() {
             type={isShowPassword ? "text" : "password"}
             required
           />
-        </div>
-        <div
+        </Box>
+        <Box
           className="form__button-container"
           style={{ justifyContent: "left" }}
         >
@@ -134,8 +134,8 @@ export default function AuthLogin() {
             isShowPassword={isShowPassword}
             setIsShowPassword={setIsShowPassword}
           />
-        </div>
-        <div
+        </Box>
+        <Box
           className="form__button-container"
           style={{ justifyContent: "right" }}
         >
@@ -148,7 +148,7 @@ export default function AuthLogin() {
               Đăng nhập
             </Box>
           </LoadingButton>
-        </div>
+        </Box>
       </form>
     </div>
   );
