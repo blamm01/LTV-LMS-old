@@ -12,10 +12,13 @@ import Drawer from "@mui/material/Drawer";
 import MenuIcon from "@mui/icons-material/Menu";
 import Divider from "@mui/material/Divider";
 import { useState } from "react";
+import { useTheme } from "@emotion/react";
+import { blueTheme } from "../themes";
 
 export default function Sidebar({ handleDrawerToggle, container, drawerWidth, mobileOpen }) {
   const [selectedItem, setSelectedItem] = useState(-1)
-
+  const theme = useTheme(blueTheme)
+  
   const drawer = (
     <div>
       <Toolbar>
@@ -26,20 +29,7 @@ export default function Sidebar({ handleDrawerToggle, container, drawerWidth, mo
         {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
           <ListItem key={text} disablePadding>
             <ListItemButton onClick={() => setSelectedItem(index)} sx={{ height: 56 }} selected={selectedItem == index}>
-              <ListItemIcon sx={{ color: selectedItem != index ? null : 'white' }}>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {["All mail", "Trash", "Spam"].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
+              <ListItemIcon sx={{ color: selectedItem != index ? null : theme.palette.primary.constractText }}>
                 {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
               </ListItemIcon>
               <ListItemText primary={text} />
