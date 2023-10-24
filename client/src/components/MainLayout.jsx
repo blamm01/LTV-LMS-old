@@ -21,7 +21,12 @@ export default function MainLayout(props) {
   return (
     <Box className="content" sx={{ display: "flex" }}>
       <CssBaseline />
-      <Sidebar handleDrawerToggle={handleDrawerToggle} container={container} drawerWidth={drawerWidth} mobileOpen={mobileOpen} />
+      <Sidebar
+        handleDrawerToggle={handleDrawerToggle}
+        container={container}
+        drawerWidth={drawerWidth}
+        mobileOpen={mobileOpen}
+      />
       <Box
         component="main"
         sx={{

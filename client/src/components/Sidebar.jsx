@@ -1,6 +1,5 @@
 import { AppBar, Box, Toolbar } from "@mui/material";
 import ltv_banner from "../assets/icons/ltv_banner.svg";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
 import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -14,27 +13,79 @@ import Divider from "@mui/material/Divider";
 import { useState } from "react";
 import { useTheme } from "@emotion/react";
 import { blueTheme } from "../themes";
+import { Dashboard } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
+import { Sidebar_Routes } from "../routes";
 
-export default function Sidebar({ handleDrawerToggle, container, drawerWidth, mobileOpen }) {
-  const [selectedItem, setSelectedItem] = useState(-1)
-  const theme = useTheme(blueTheme)
-  
+function SidebarListItem({
+  id,
+  linkTo,
+  text,
+  index,
+  setSelectedItem,
+  selectedItem,
+  theme,
+  navigate,
+  icon
+}) {
+  function handleClick() {
+    setSelectedItem(index);
+    navigate(linkTo);
+  }
+
+  return (
+    <ListItem key={id} disablePadding>
+      <ListItemButton
+        onClick={handleClick}
+        sx={{ height: 56 }}
+        selected={selectedItem === index}
+      >
+        <ListItemIcon
+          sx={{
+            color:
+              selectedItem !== index
+                ? null
+                : theme.palette.primary.constractText,
+          }}
+        >
+          {icon}
+        </ListItemIcon>
+        <ListItemText primary={text} />
+      </ListItemButton>
+    </ListItem>
+  );
+}
+
+export default function Sidebar({
+  handleDrawerToggle,
+  container,
+  drawerWidth,
+  mobileOpen,
+}) {
+  const [selectedItem, setSelectedItem] = useState(-1);
+  const theme = useTheme(blueTheme);
+  const navigate = useNavigate();
+
   const drawer = (
     <div>
       <Toolbar>
-        <img src={ltv_banner} />
+        <img src={ltv_banner} alt="" />
       </Toolbar>
       <Divider />
       <List>
-        {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton onClick={() => setSelectedItem(index)} sx={{ height: 56 }} selected={selectedItem == index}>
-              <ListItemIcon sx={{ color: selectedItem != index ? null : theme.palette.primary.constractText }}>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
+        {Sidebar_Routes.map((obj, index) => (
+          <SidebarListItem
+            theme={theme}
+            selectedItem={selectedItem}
+            setSelectedItem={setSelectedItem}
+            index={index}
+            id={obj.id}
+            linkTo={obj.linkTo}
+            text={obj.text}
+            key={obj.id}
+            navigate={navigate}
+            icon={obj.icon}
+          />
         ))}
       </List>
     </div>
@@ -47,8 +98,8 @@ export default function Sidebar({ handleDrawerToggle, container, drawerWidth, mo
         sx={{
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
-          color: 'black',
-          backgroundColor: 'white'
+          color: "black",
+          backgroundColor: "white",
         }}
       >
         <Toolbar>
