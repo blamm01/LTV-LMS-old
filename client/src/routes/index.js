@@ -23,6 +23,29 @@ export const Sidebar_Routes = [
         linkTo: '/students',
         text: 'Học sinh',
         icon: <icon.LocalLibrary />,
+    },
+    {
+        id: 'teachers',
+        linkTo: '/teachers',
+        text: 'Giáo viên',
+        icon: <icon.Group />,
+        children: [
+            {
+                id: 'list',
+                linkTo: '/teachers/list',
+                text: 'Danh sách',
+            },
+            {
+                id: 'teaching_subjects',
+                linkTo: '/teachers/teaching_subjects',
+                text: 'Giảng dạy'
+            },
+            {
+                id: 'head_classes',
+                linkTo: '/teachers/head_classes',
+                text: 'Chủ nhiệm'
+            }
+        ]
     }
 ]
 
@@ -33,7 +56,8 @@ export const router = createBrowserRouter(
             <Route path={APP_ROUTES.LOGIN} element={<AuthLogin />} />
             <Route element={<ProtectedRoute><MainLayout /></ProtectedRoute>}>
                 <Route path={APP_ROUTES.DASHBOARD} element={<Dashboard />} />
-                <Route path={'/test'} element={<Dashboard />} />
+                <Route path={'/students'} />
+                <Route path={'/teachers'} />
             </Route>
         </>
     )

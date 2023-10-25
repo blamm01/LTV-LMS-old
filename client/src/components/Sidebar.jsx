@@ -6,15 +6,13 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import MailIcon from "@mui/icons-material/Mail";
 import Drawer from "@mui/material/Drawer";
 import MenuIcon from "@mui/icons-material/Menu";
 import Divider from "@mui/material/Divider";
 import { useState } from "react";
 import { useTheme } from "@emotion/react";
 import { blueTheme } from "../themes";
-import { Dashboard } from "@mui/icons-material";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Sidebar_Routes } from "../routes";
 
 function SidebarListItem({
@@ -62,7 +60,8 @@ export default function Sidebar({
   drawerWidth,
   mobileOpen,
 }) {
-  const [selectedItem, setSelectedItem] = useState(-1);
+  const location = useLocation()
+  const [selectedItem, setSelectedItem] = useState(Sidebar_Routes.findIndex(v => v.linkTo.startsWith(location.pathname)));
   const theme = useTheme(blueTheme);
   const navigate = useNavigate();
 
