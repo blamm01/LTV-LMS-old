@@ -6,7 +6,7 @@ import { Outlet } from "react-router-dom";
 import Sidebar from "./Sidebar";
 
 export default function MainLayout(props) {
-  const drawerWidth = 240;
+  const drawerWidth = 256;
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
