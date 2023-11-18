@@ -4,7 +4,8 @@
   "main": "app.js",
   "scripts": {
     "start:prod": "NODE_ENV=production ts-node ./src/app.ts",
-    "start:dev": "npx nodemon ./src/app.ts"
+    "start:dev": "nodemon ./src/app.ts",
+    "start:pm2": "pm2 start yarn --name LTV-LMS-Server --log app-log.txt -- start:prod"
   },
   "author": "",
   "license": "ISC",

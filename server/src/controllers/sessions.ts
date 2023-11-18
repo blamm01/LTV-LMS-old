@@ -31,7 +31,7 @@ export const createSession = async (
     )
     let session;
     try {
-      session = await generateToken(user, req.ip);
+      session = await generateToken(user, req.ip || req.ipAddr || "");
     } catch (err: any) {
       CreateRespond.Unavailable(
         res,
