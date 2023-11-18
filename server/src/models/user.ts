@@ -17,7 +17,6 @@ export interface IUser extends mongoose.Document {
     
     role: 'student' | 'teacher' | string
 
-    add_permissions: Types.Array<string>
     superuser: boolean
 
     status: StatusesType

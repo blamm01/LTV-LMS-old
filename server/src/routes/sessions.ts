@@ -1,6 +1,7 @@
 import { Router } from "express";
-import { createSession } from "../controllers/sessions";
+import { createSession, deleteSession } from "../controllers/sessions";
 import { validate } from "../middlewares/validation";
+import { checkAuthProcess } from "../middlewares/auth";
 
 const router = Router();
 
@@ -20,5 +21,7 @@ router.post(
   ]),
   createSession
 );
+
+router.delete('/destroy', ...checkAuthProcess(true), deleteSession)
 
 export = router;

@@ -74,7 +74,8 @@ export default function AuthLogin() {
             authenticated: true,
             session: data.data.session,
             user: data.data.user,
-            token: data.data.token,
+            token: data.data.token || "",
+            permissions: data.data.permissions
           });
           if (prevState?.previous && prevState?.previous?.pathname)
             navigate(prevState.previous.pathname);

@@ -8,7 +8,21 @@ const initialValue = {
     authenticated: false,
     session: null,
     user: null,
-    token: ""
+    token: "",
+    permissions: {
+        permObj: {
+            students: [],
+            teachers: [],
+            staff: [],
+            classes: [],
+            grades: [],
+            subjects: [],
+            scores: [],
+            generations: [],
+            semesters: []
+        },
+        superuser: false
+    }
 }
 
 const authContextInitVal = {
@@ -26,21 +40,22 @@ export const AuthProvider = ({ children }) => {
     }
 
     useEffect(() => {
-        if(auth?.token) {
+        if (auth?.token) {
             axios.get(API_ROUTES.GET_ME, {
                 headers: {
                     Authorization: auth.token
                 }
             }).then((response) => {
                 let data = response.data
-                if(!_.isEqual(data?.user, auth.user) || !_.isEqual(data?.session, auth.session)) setAuth({
+                if (!_.isEqual(data?.user, auth.user) || !_.isEqual(data?.session, auth.session)) setAuth({
                     authenticated: true,
                     session: data?.session,
                     user: data?.user,
-                    token: auth.token
+                    token: auth.token,
+                    permissions: data?.permissions
                 })
             }, (error) => {
-                if(error?.response?.data?.success === false) setAuth(initialValue)
+                if (error?.response?.data?.success === false) setAuth(initialValue)
             })
         }
     })
