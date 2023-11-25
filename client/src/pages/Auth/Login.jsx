@@ -1,4 +1,4 @@
-import { Checkbox, FormControlLabel, TextField } from "@mui/material";
+import { Checkbox, Container, FormControlLabel, TextField } from "@mui/material";
 import icon from "../../assets/icons/ltv_logo.ico";
 import { useState, useContext, useEffect } from "react";
 import { Box } from "@mui/material";
@@ -98,7 +98,7 @@ export default function AuthLogin() {
   }
 
   return (
-    <div className="auth_container">
+    <Box className="auth_container">
       <TopCenterSnackbar
         setOpen={setSnackbarOpened}
         open={snackbarOpened}
@@ -151,6 +151,6 @@ export default function AuthLogin() {
           </LoadingButton>
         </Box>
       </form>
-    </div>
+    </Box>
   );
 }

@@ -1,4 +1,4 @@
-import { AppBar, Box, Toolbar } from "@mui/material";
+import { AppBar, Box, Collapse, Toolbar } from "@mui/material";
 import ltv_banner from "../assets/icons/ltv_banner.svg";
 import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
@@ -13,29 +13,49 @@ import { useState } from "react";
 import { useTheme } from "@emotion/react";
 import { blueTheme } from "../themes";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Sidebar_Routes } from "../routes";
+import { APP_ROUTES, routes } from "../routes";
+import { ExpandLess, ExpandMore, StarBorder } from "@mui/icons-material";
 
 function SidebarListItem({
-  id,
-  linkTo,
+  appRouteLinkTo,
   text,
   index,
   setSelectedItem,
   selectedItem,
   theme,
   navigate,
-  icon
+  icon,
+  children,
+  linkNotExists,
+  selectedChild,
+  setSelectedChild
 }) {
-  function handleClick() {
-    setSelectedItem(index);
-    navigate(linkTo);
+  const isParentSelected = selectedItem == index;
+  const hasChildren = children.length > 0;
+
+  function handleParentClick() {
+    setSelectedItem((selectedItem == index && hasChildren) ? "" : index);
+    if (!linkNotExists) navigate(APP_ROUTES[appRouteLinkTo.toUpperCase()]);
+  }
+  
+  function handleChildrenClick(childrenIndex, childrenAppRouteLinkTo) {
+    setSelectedChild(`${index}.${childrenIndex}`)
+    navigate(APP_ROUTES[childrenAppRouteLinkTo.toUpperCase()])
   }
 
   return (
-    <ListItem key={id} disablePadding>
+    <>
       <ListItemButton
-        onClick={handleClick}
-        sx={{ height: 56 }}
+        onClick={handleParentClick}
+        sx={{ height: 56,
+          "&.Mui-selected": {
+            backgroundColor: "#0D47A1",
+            color: "#fff",
+          },
+          "&.Mui-selected:hover": {
+              color: "white",
+              backgroundColor: "#305dac"
+          } }}
         selected={selectedItem === index}
       >
         <ListItemIcon
@@ -44,13 +64,48 @@ function SidebarListItem({
               selectedItem !== index
                 ? null
                 : theme.palette.primary.constractText,
+            minWidth: 48,
           }}
         >
           {icon}
         </ListItemIcon>
-        <ListItemText primary={text} />
+        <ListItemText primary={text} disableTypography={true} />
+        {hasChildren ? (
+          !isParentSelected ? (
+            <ExpandMore />
+          ) : (
+            <ExpandLess />
+          )
+        ) : null}
       </ListItemButton>
-    </ListItem>
+      {hasChildren ? (
+        <Collapse in={isParentSelected} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            {children.map((v, i) => {
+              return (
+                <ListItemButton
+                  selected={isParentSelected && selectedChild == `${index}.${i}`}
+                  sx={{
+                    pl: 6,
+                    "&.Mui-selected": {
+                      bgcolor: '#BBDEFB',
+                      color: '#0D47A1'
+                    },
+                    "&.Mui-selected:hover": {
+                      bgcolor: '#BBDEFB',
+                      color: '#0D47A1'
+                    }
+                  }}
+                  onClick={() => handleChildrenClick(i, v.appRouteLinkTo)}
+                >
+                  <ListItemText disableTypography={true} primary={v.text} />
+                </ListItemButton>
+              );
+            })}
+          </List>
+        </Collapse>
+      ) : null}
+    </>
   );
 }
 
@@ -60,34 +115,43 @@ export default function Sidebar({
   drawerWidth,
   mobileOpen,
 }) {
-  const location = useLocation()
-  const [selectedItem, setSelectedItem] = useState(Sidebar_Routes.findIndex(v => v.linkTo.startsWith(location.pathname)));
+  const location = useLocation();
+  const [selectedItem, setSelectedItem] = useState("");
+  const [selectedChild, setSelectedChild] = useState("0.0");
   const theme = useTheme(blueTheme);
   const navigate = useNavigate();
 
   const drawer = (
-    <div>
+    <Box>
       <Toolbar>
         <img src={ltv_banner} alt="" />
       </Toolbar>
       <Divider />
-      <List>
-        {Sidebar_Routes.map((obj, index) => (
+      <List
+        sx={{
+          fontSize: 14,
+        }}
+      >
+        {routes.map((obj, index) => (
           <SidebarListItem
             theme={theme}
             selectedItem={selectedItem}
             setSelectedItem={setSelectedItem}
             index={index}
             id={obj.id}
-            linkTo={obj.linkTo}
+            appRouteLinkTo={obj.appRouteLinkTo}
             text={obj.text}
             key={obj.id}
             navigate={navigate}
             icon={obj.icon}
+            children={obj?.children?.length > 0 ? obj.children : []}
+            linkNotExists={obj?.linkNotExists}
+            selectedChild={selectedChild}
+            setSelectedChild={setSelectedChild}
           />
         ))}
       </List>
-    </div>
+    </Box>
   );
 
   return (

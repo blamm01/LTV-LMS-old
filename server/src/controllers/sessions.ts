@@ -4,6 +4,7 @@ import { CreateRespond } from "../utils/express";
 import { userModel } from "../models/user";
 import { comparePassword, generateToken, hashPassword } from "../utils/auth";
 import config from "config"
+import { sessionModel } from "../models/session";
 
 export const createSession = async (
   req: ERequest,
@@ -55,3 +56,8 @@ export const createSession = async (
     CreateRespond.Unavailable(res, "Lỗi không xác định", "UNKNOWN_ERROR", err);
   }
 };
+
+export const deleteSession = async (req: ERequest, res: EResponse) => {
+  await sessionModel.findOneAndDelete({ _id: res.locals.info?.session.id })
+  CreateRespond.Deleted(res)
+}
