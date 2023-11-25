@@ -85,7 +85,8 @@ export const routes = [
             {
                 id: 'students',
                 appRouteLinkTo: 'classes/students',
-                text: "Học sinh"
+                text: "Học sinh",
+                element: <Dashboard />
             },
             {
                 id: "teachers",
@@ -104,11 +105,11 @@ export const router = createBrowserRouter(
             <Route element={<ProtectedRoute><MainLayout /></ProtectedRoute>}>
                 {routes.map(v => {
                     if (v?.children?.length > 0 || !v.appRouteLinkTo) {
-                        return (<Route>
-                            {v.children.map(child => <Route path={APP_ROUTES[child.appRouteLinkTo.toUpperCase()]} />)}
+                        return (<Route key={v.id}>
+                            {v.children.map(child => <Route key={child.appRouteLinkTo} path={APP_ROUTES[child.appRouteLinkTo.toUpperCase()]} element={child?.element || <></>} />)}
                         </Route>)
                     } else {
-                        return <Route path={APP_ROUTES[v.appRouteLinkTo.toUpperCase()]} />
+                        return <Route key={v.id} path={APP_ROUTES[v.appRouteLinkTo.toUpperCase()]} element={v?.element || <></>} />
                     }
                 })}
             </Route>

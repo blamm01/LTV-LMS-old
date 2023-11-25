@@ -2,7 +2,6 @@ import { AppBar, Box, Collapse, Toolbar } from "@mui/material";
 import ltv_banner from "../assets/icons/ltv_banner.svg";
 import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
@@ -12,9 +11,9 @@ import Divider from "@mui/material/Divider";
 import { useState } from "react";
 import { useTheme } from "@emotion/react";
 import { blueTheme } from "../themes";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { APP_ROUTES, routes } from "../routes";
-import { ExpandLess, ExpandMore, StarBorder } from "@mui/icons-material";
+import { ExpandLess, ExpandMore } from "@mui/icons-material";
 
 function SidebarListItem({
   appRouteLinkTo,
@@ -30,11 +29,11 @@ function SidebarListItem({
   selectedChild,
   setSelectedChild
 }) {
-  const isParentSelected = selectedItem == index;
+  const isParentSelected = selectedItem === index;
   const hasChildren = children.length > 0;
 
   function handleParentClick() {
-    setSelectedItem((selectedItem == index && hasChildren) ? "" : index);
+    setSelectedItem((selectedItem === index && hasChildren) ? "" : index);
     if (!linkNotExists) navigate(APP_ROUTES[appRouteLinkTo.toUpperCase()]);
   }
   
@@ -84,7 +83,8 @@ function SidebarListItem({
             {children.map((v, i) => {
               return (
                 <ListItemButton
-                  selected={isParentSelected && selectedChild == `${index}.${i}`}
+                  key={v.appRouteLinkTo}
+                  selected={isParentSelected && selectedChild === `${index}.${i}`}
                   sx={{
                     pl: 6,
                     "&.Mui-selected": {
@@ -115,7 +115,6 @@ export default function Sidebar({
   drawerWidth,
   mobileOpen,
 }) {
-  const location = useLocation();
   const [selectedItem, setSelectedItem] = useState("");
   const [selectedChild, setSelectedChild] = useState("0.0");
   const theme = useTheme(blueTheme);
@@ -134,6 +133,7 @@ export default function Sidebar({
       >
         {routes.map((obj, index) => (
           <SidebarListItem
+            key={obj.id}
             theme={theme}
             selectedItem={selectedItem}
             setSelectedItem={setSelectedItem}
@@ -141,7 +141,6 @@ export default function Sidebar({
             id={obj.id}
             appRouteLinkTo={obj.appRouteLinkTo}
             text={obj.text}
-            key={obj.id}
             navigate={navigate}
             icon={obj.icon}
             children={obj?.children?.length > 0 ? obj.children : []}
