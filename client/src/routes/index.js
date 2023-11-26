@@ -45,6 +45,8 @@ export const routes = [
                 id: 'list',
                 text: 'Danh sách',
                 appRouteLinkTo: "teachers/list",
+                element: <Dashboard />,
+
             },
             {
                 id: 'teaching_subjects',

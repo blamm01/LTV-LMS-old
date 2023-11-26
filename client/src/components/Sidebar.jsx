@@ -10,36 +10,41 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Divider from "@mui/material/Divider";
 import { useState } from "react";
 import { useTheme } from "@emotion/react";
-import { blueTheme } from "../themes";
 import { useNavigate } from "react-router-dom";
 import { APP_ROUTES, routes } from "../routes";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
+import { useCurrentPath } from "../hooks/useCurrentPath";
 
 function SidebarListItem({
+  id,
   appRouteLinkTo,
   text,
-  index,
-  setSelectedItem,
-  selectedItem,
-  theme,
-  navigate,
   icon,
   children,
-  linkNotExists,
-  selectedChild,
-  setSelectedChild
+  activeItem,
+  setActiveItem
 }) {
-  const isParentSelected = selectedItem === index;
-  const hasChildren = children.length > 0;
+  const theme = useTheme();
+  const navigate = useNavigate();
+
+  const currentPath = useCurrentPath();
+  const currentPathId = (Object.keys(APP_ROUTES).find(v => APP_ROUTES[v] == currentPath) || "").toLowerCase();
+
+  let isParentSelected = activeItem == appRouteLinkTo || activeItem.startsWith(id);
+  const parentHasChildren = children.length > 0;
 
   function handleParentClick() {
-    setSelectedItem((selectedItem === index && hasChildren) ? "" : index);
-    if (!linkNotExists) navigate(APP_ROUTES[appRouteLinkTo.toUpperCase()]);
+    if(!parentHasChildren) navigate(APP_ROUTES[appRouteLinkTo.toUpperCase()])
+    console.log(isParentSelected)
+    console.log(activeItem)
+    setActiveItem(activeItem == id || activeItem.startsWith(id) || currentPathId.startsWith(id) ? currentPathId : id)
   }
-  
-  function handleChildrenClick(childrenIndex, childrenAppRouteLinkTo) {
-    setSelectedChild(`${index}.${childrenIndex}`)
-    navigate(APP_ROUTES[childrenAppRouteLinkTo.toUpperCase()])
+
+  function handleChildrenClick(childAppRouteLinkTo) {
+    const linkTo = APP_ROUTES[childAppRouteLinkTo.toUpperCase()]
+    navigate(linkTo)
+    setActiveItem(linkTo)
+    isParentSelected = true
   }
 
   return (
@@ -55,12 +60,12 @@ function SidebarListItem({
               color: "white",
               backgroundColor: "#305dac"
           } }}
-        selected={selectedItem === index}
+        selected={isParentSelected}
       >
         <ListItemIcon
           sx={{
             color:
-              selectedItem !== index
+              !isParentSelected
                 ? null
                 : theme.palette.primary.constractText,
             minWidth: 48,
@@ -69,7 +74,7 @@ function SidebarListItem({
           {icon}
         </ListItemIcon>
         <ListItemText primary={text} disableTypography={true} />
-        {hasChildren ? (
+        {parentHasChildren ? (
           !isParentSelected ? (
             <ExpandMore />
           ) : (
@@ -77,14 +82,14 @@ function SidebarListItem({
           )
         ) : null}
       </ListItemButton>
-      {hasChildren ? (
+      {parentHasChildren ? (
         <Collapse in={isParentSelected} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-            {children.map((v, i) => {
+            {children.filter(v => !v?.hideInSidebar).map((v, i) => {
               return (
                 <ListItemButton
                   key={v.appRouteLinkTo}
-                  selected={isParentSelected && selectedChild === `${index}.${i}`}
+                  selected={activeItem == v.appRouteLinkTo}
                   sx={{
                     pl: 6,
                     "&.Mui-selected": {
@@ -96,7 +101,7 @@ function SidebarListItem({
                       color: '#0D47A1'
                     }
                   }}
-                  onClick={() => handleChildrenClick(i, v.appRouteLinkTo)}
+                  onClick={() => handleChildrenClick(v.appRouteLinkTo)}
                 >
                   <ListItemText disableTypography={true} primary={v.text} />
                 </ListItemButton>
@@ -115,10 +120,12 @@ export default function Sidebar({
   drawerWidth,
   mobileOpen,
 }) {
-  const [selectedItem, setSelectedItem] = useState("");
-  const [selectedChild, setSelectedChild] = useState("0.0");
-  const theme = useTheme(blueTheme);
   const navigate = useNavigate();
+  const currentPath = useCurrentPath();
+  const currentPathId = (Object.keys(APP_ROUTES).find(v => APP_ROUTES[v] == currentPath) || "").toLowerCase();
+
+  const [activeItem, setActiveItem] = useState(currentPathId);
+  console.log(activeItem)
 
   const drawer = (
     <Box>
@@ -131,22 +138,18 @@ export default function Sidebar({
           fontSize: 14,
         }}
       >
-        {routes.map((obj, index) => (
+        {routes.filter(v => !v?.hideInSidebar).map((obj, index) => (
           <SidebarListItem
             key={obj.id}
-            theme={theme}
-            selectedItem={selectedItem}
-            setSelectedItem={setSelectedItem}
-            index={index}
             id={obj.id}
+            activeItem={activeItem}
+            setActiveItem={setActiveItem}
             appRouteLinkTo={obj.appRouteLinkTo}
             text={obj.text}
-            navigate={navigate}
             icon={obj.icon}
             children={obj?.children?.length > 0 ? obj.children : []}
-            linkNotExists={obj?.linkNotExists}
-            selectedChild={selectedChild}
-            setSelectedChild={setSelectedChild}
+            currentPathId={currentPathId}
+            mainReRenderedActiveItem={activeItem}
           />
         ))}
       </List>
