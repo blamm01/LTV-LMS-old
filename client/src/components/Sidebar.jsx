@@ -9,7 +9,6 @@ import Drawer from "@mui/material/Drawer";
 import MenuIcon from "@mui/icons-material/Menu";
 import Divider from "@mui/material/Divider";
 import { useState } from "react";
-import { useTheme } from "@emotion/react";
 import { useNavigate } from "react-router-dom";
 import { APP_ROUTES, routes } from "../routes";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
@@ -27,25 +26,23 @@ function SidebarListItem({
   activeItem,
   setActiveItem
 }) {
-  const theme = useTheme();
   const navigate = useNavigate();
 
   const currentPath = useCurrentPath();
-  const currentPathId = (Object.keys(APP_ROUTES).find(v => APP_ROUTES[v] == currentPath) || "").toLowerCase();
+  const currentPathId = (Object.keys(APP_ROUTES).find(v => APP_ROUTES[v] === currentPath) || "").toLowerCase();
 
-  let isParentSelected = activeItem == appRouteLinkTo ||  activeItem.startsWith(id);
+  let isParentSelected = activeItem === appRouteLinkTo ||  activeItem.startsWith(id);
   const parentHasChildren = children.length > 0;
 
   function handleParentClick() {
     if(!parentHasChildren) navigate(APP_ROUTES[appRouteLinkTo.toUpperCase()])
-    setActiveItem(activeItem == id || activeItem.startsWith(id) || currentPathId.startsWith(id) ? currentPathId : id)
+    setActiveItem(activeItem === id || activeItem.startsWith(id) || currentPathId.startsWith(id) ? currentPathId : id)
   }
 
   function handleChildrenClick(childAppRouteLinkTo) {
     const linkTo = APP_ROUTES[childAppRouteLinkTo.toUpperCase()]
     navigate(linkTo)
     setActiveItem(childAppRouteLinkTo)
-    console.log('navigated to', linkTo)
   }
 
   return (
@@ -68,7 +65,7 @@ function SidebarListItem({
             color:
               !isParentSelected
                 ? null
-                : theme.palette.primary.constractText,
+                : 'primary.constractText',
             minWidth: 48,
           }}
         >
@@ -90,7 +87,7 @@ function SidebarListItem({
               return (
                 <ListItemButton
                   key={v.appRouteLinkTo}
-                  selected={activeItem == v.appRouteLinkTo}
+                  selected={activeItem === v.appRouteLinkTo}
                   sx={{
                     pl: 6,
                     "&.Mui-selected": {
@@ -121,9 +118,8 @@ export default function Sidebar({
   drawerWidth,
   mobileOpen,
 }) {
-  const navigate = useNavigate();
   const currentPath = useCurrentPath();
-  const currentPathId = (Object.keys(APP_ROUTES).find(v => APP_ROUTES[v] == currentPath) || "").toLowerCase();
+  const currentPathId = (Object.keys(APP_ROUTES).find(v => APP_ROUTES[v] === currentPath) || "").toLowerCase();
 
   const [activeItem, setActiveItem] = useState(currentPathId);
 
