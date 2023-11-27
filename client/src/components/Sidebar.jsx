@@ -1,4 +1,4 @@
-import { AppBar, Box, Collapse, Toolbar } from "@mui/material";
+import { AppBar, Box, Collapse, Container, Toolbar } from "@mui/material";
 import ltv_banner from "../assets/icons/ltv_banner.svg";
 import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
@@ -9,7 +9,7 @@ import Drawer from "@mui/material/Drawer";
 import MenuIcon from "@mui/icons-material/Menu";
 import Divider from "@mui/material/Divider";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { APP_ROUTES, routes } from "../routes";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import { useCurrentPath } from "../hooks/useCurrentPath";
@@ -24,48 +24,56 @@ function SidebarListItem({
   icon,
   children,
   activeItem,
-  setActiveItem
+  setActiveItem,
 }) {
   const navigate = useNavigate();
 
   const currentPath = useCurrentPath();
-  const currentPathId = (Object.keys(APP_ROUTES).find(v => APP_ROUTES[v] === currentPath) || "").toLowerCase();
+  const currentPathId = (
+    Object.keys(APP_ROUTES).find((v) => APP_ROUTES[v] === currentPath) || ""
+  ).toLowerCase();
 
-  let isParentSelected = activeItem === appRouteLinkTo ||  activeItem.startsWith(id);
+  let isParentSelected =
+    activeItem === appRouteLinkTo || activeItem.startsWith(id);
   const parentHasChildren = children.length > 0;
 
   function handleParentClick() {
-    if(!parentHasChildren) navigate(APP_ROUTES[appRouteLinkTo.toUpperCase()])
-    setActiveItem(activeItem === id || activeItem.startsWith(id) || currentPathId.startsWith(id) ? currentPathId : id)
+    if (!parentHasChildren) navigate(APP_ROUTES[appRouteLinkTo.toUpperCase()]);
+    setActiveItem(
+      activeItem === id ||
+        activeItem.startsWith(id) ||
+        currentPathId.startsWith(id)
+        ? currentPathId
+        : id
+    );
   }
 
   function handleChildrenClick(childAppRouteLinkTo) {
-    const linkTo = APP_ROUTES[childAppRouteLinkTo.toUpperCase()]
-    navigate(linkTo)
-    setActiveItem(childAppRouteLinkTo)
+    const linkTo = APP_ROUTES[childAppRouteLinkTo.toUpperCase()];
+    navigate(linkTo);
+    setActiveItem(childAppRouteLinkTo);
   }
 
   return (
     <>
       <ListItemButton
         onClick={handleParentClick}
-        sx={{ height: 56,
+        sx={{
+          height: 56,
           "&.Mui-selected": {
             backgroundColor: "#0D47A1",
             color: "#fff",
           },
           "&.Mui-selected:hover": {
-              color: "white",
-              backgroundColor: "#305dac"
-          } }}
+            color: "white",
+            backgroundColor: "#305dac",
+          },
+        }}
         selected={isParentSelected}
       >
         <ListItemIcon
           sx={{
-            color:
-              !isParentSelected
-                ? null
-                : 'primary.constractText',
+            color: !isParentSelected ? null : "primary.constractText",
             minWidth: 48,
           }}
         >
@@ -83,28 +91,30 @@ function SidebarListItem({
       {parentHasChildren ? (
         <Collapse in={isParentSelected} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-            {children.filter(v => !v?.hideInSidebar).map((v, i) => {
-              return (
-                <ListItemButton
-                  key={v.appRouteLinkTo}
-                  selected={activeItem === v.appRouteLinkTo}
-                  sx={{
-                    pl: 6,
-                    "&.Mui-selected": {
-                      bgcolor: '#BBDEFB',
-                      color: '#0D47A1'
-                    },
-                    "&.Mui-selected:hover": {
-                      bgcolor: '#BBDEFB',
-                      color: '#0D47A1'
-                    }
-                  }}
-                  onClick={() => handleChildrenClick(v.appRouteLinkTo)}
-                >
-                  <ListItemText disableTypography={true} primary={v.text} />
-                </ListItemButton>
-              );
-            })}
+            {children
+              .filter((v) => !v?.hideInSidebar)
+              .map((v, i) => {
+                return (
+                  <ListItemButton
+                    key={v.appRouteLinkTo}
+                    selected={activeItem === v.appRouteLinkTo}
+                    sx={{
+                      pl: 6,
+                      "&.Mui-selected": {
+                        bgcolor: "#BBDEFB",
+                        color: "#0D47A1",
+                      },
+                      "&.Mui-selected:hover": {
+                        bgcolor: "#BBDEFB",
+                        color: "#0D47A1",
+                      },
+                    }}
+                    onClick={() => handleChildrenClick(v.appRouteLinkTo)}
+                  >
+                    <ListItemText disableTypography={true} primary={v.text} />
+                  </ListItemButton>
+                );
+              })}
           </List>
         </Collapse>
       ) : null}
@@ -119,14 +129,18 @@ export default function Sidebar({
   mobileOpen,
 }) {
   const currentPath = useCurrentPath();
-  const currentPathId = (Object.keys(APP_ROUTES).find(v => APP_ROUTES[v] === currentPath) || "").toLowerCase();
+  const currentPathId = (
+    Object.keys(APP_ROUTES).find((v) => APP_ROUTES[v] === currentPath) || ""
+  ).toLowerCase();
 
   const [activeItem, setActiveItem] = useState(currentPathId);
 
   const drawer = (
     <Box>
       <Toolbar>
-        <img src={ltv_banner} alt="" />
+        <Container>
+          <img src={ltv_banner} alt="" />
+        </Container>
       </Toolbar>
       <Divider />
       <List
@@ -134,20 +148,22 @@ export default function Sidebar({
           fontSize: 14,
         }}
       >
-        {routes.filter(v => !v?.hideInSidebar).map((obj) => (
-          <SidebarListItem
-            key={obj.id}
-            id={obj.id}
-            activeItem={activeItem}
-            setActiveItem={setActiveItem}
-            appRouteLinkTo={obj.appRouteLinkTo}
-            text={obj.text}
-            icon={obj.icon}
-            children={obj?.children?.length > 0 ? obj.children : []}
-            currentPathId={currentPathId}
-            mainReRenderedActiveItem={activeItem}
-          />
-        ))}
+        {routes
+          .filter((v) => !v?.hideInSidebar)
+          .map((obj) => (
+            <SidebarListItem
+              key={obj.id}
+              id={obj.id}
+              activeItem={activeItem}
+              setActiveItem={setActiveItem}
+              appRouteLinkTo={obj.appRouteLinkTo}
+              text={obj.text}
+              icon={obj.icon}
+              children={obj?.children?.length > 0 ? obj.children : []}
+              currentPathId={currentPathId}
+              mainReRenderedActiveItem={activeItem}
+            />
+          ))}
       </List>
     </Box>
   );
