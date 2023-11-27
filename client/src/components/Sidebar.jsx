@@ -15,6 +15,9 @@ import { APP_ROUTES, routes } from "../routes";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import { useCurrentPath } from "../hooks/useCurrentPath";
 
+// activeItem: APP_ROUTES (key) NOT VALUE
+// eg: teachers teachers/head_classes
+
 function SidebarListItem({
   id,
   appRouteLinkTo,
@@ -30,21 +33,19 @@ function SidebarListItem({
   const currentPath = useCurrentPath();
   const currentPathId = (Object.keys(APP_ROUTES).find(v => APP_ROUTES[v] == currentPath) || "").toLowerCase();
 
-  let isParentSelected = activeItem == appRouteLinkTo || activeItem.startsWith(id);
+  let isParentSelected = activeItem == appRouteLinkTo ||  activeItem.startsWith(id);
   const parentHasChildren = children.length > 0;
 
   function handleParentClick() {
     if(!parentHasChildren) navigate(APP_ROUTES[appRouteLinkTo.toUpperCase()])
-    console.log(isParentSelected)
-    console.log(activeItem)
     setActiveItem(activeItem == id || activeItem.startsWith(id) || currentPathId.startsWith(id) ? currentPathId : id)
   }
 
   function handleChildrenClick(childAppRouteLinkTo) {
     const linkTo = APP_ROUTES[childAppRouteLinkTo.toUpperCase()]
     navigate(linkTo)
-    setActiveItem(linkTo)
-    isParentSelected = true
+    setActiveItem(childAppRouteLinkTo)
+    console.log('navigated to', linkTo)
   }
 
   return (
@@ -125,7 +126,6 @@ export default function Sidebar({
   const currentPathId = (Object.keys(APP_ROUTES).find(v => APP_ROUTES[v] == currentPath) || "").toLowerCase();
 
   const [activeItem, setActiveItem] = useState(currentPathId);
-  console.log(activeItem)
 
   const drawer = (
     <Box>
@@ -138,7 +138,7 @@ export default function Sidebar({
           fontSize: 14,
         }}
       >
-        {routes.filter(v => !v?.hideInSidebar).map((obj, index) => (
+        {routes.filter(v => !v?.hideInSidebar).map((obj) => (
           <SidebarListItem
             key={obj.id}
             id={obj.id}
