@@ -1,4 +1,4 @@
-import { Alert, Box, Snackbar, Typography } from "@mui/material";
+import { Alert, Snackbar, Typography } from "@mui/material";
 
 export default function TopCenterSnackbar({ setOpen, open, severity, text }) {
     const vertical = 'top', horizontal = 'center';

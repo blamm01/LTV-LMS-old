@@ -9,7 +9,7 @@ import Drawer from "@mui/material/Drawer";
 import MenuIcon from "@mui/icons-material/Menu";
 import Divider from "@mui/material/Divider";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { APP_ROUTES, routes } from "../routes";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import { useCurrentPath } from "../hooks/useCurrentPath";
@@ -146,6 +146,8 @@ export default function Sidebar({
       <List
         sx={{
           fontSize: 14,
+          pt: 0,
+          pb: 0
         }}
       >
         {routes
