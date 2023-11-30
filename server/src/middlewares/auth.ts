@@ -3,11 +3,19 @@ import { ERequest, EResponse } from "../typings/express";
 import { checkPerms, getPermissions, verifyToken } from "../utils/auth";
 import { CreateRespond } from "../utils/express";
 import { validate } from "./validation";
-import { defaultPerm, permsType, permsTypeOptional } from "../typings/permissions";
+import {
+  defaultPerm,
+  permsTypeOptional,
+} from "../typings/permissions";
 
 export function checkAuthProcess(
   stopIfNotAuth: true | false = true,
-  perms?: { requireSpecificPerms: boolean, include: permsTypeOptional; required: permsTypeOptional, requiredSuperuser?: boolean | null }
+  perms?: {
+    requireSpecificPerms: boolean;
+    include: permsTypeOptional;
+    required: permsTypeOptional;
+    requiredSuperuser?: boolean | null;
+  }
 ) {
   return [
     validate.header([
@@ -46,9 +54,9 @@ export function checkAuthProcess(
       let userPermissions;
 
       try {
-        userPermissions = await getPermissions(data.user)
-      } catch(err: any) {
-        console.log(err)
+        userPermissions = await getPermissions(data.user);
+      } catch (err: any) {
+        console.log(err);
         res.locals.info = {
           user: {
             ...(data.user as any)?._doc,
@@ -67,9 +75,16 @@ export function checkAuthProcess(
           : next();
       }
 
-      const isPermitted = perms && perms.requireSpecificPerms
-        ? checkPerms(perms.include, perms.required, userPermissions.permObj, perms.requiredSuperuser || false, userPermissions.superuser)
-        : true;
+      const isPermitted =
+        perms && perms.requireSpecificPerms
+          ? checkPerms(
+              perms.include,
+              perms.required,
+              userPermissions.permObj,
+              perms.requiredSuperuser || false,
+              userPermissions.superuser
+            )
+          : true;
 
       res.locals.info = {
         user: {

@@ -16,9 +16,16 @@ export const APP_ROUTES = {
     'SCORES/VIEW': '/scores/view',
     'SCORES/EDIT': '/scores/edit',
     'CLASSES/STUDENTS': '/classes/students',
-    'CLASSES/TEACHERS': '/classes/teachers'
+    'CLASSES/TEACHERS': '/classes/teachers',
+    'ADVANCED/SUBJECTS': '/advanced/subjects',
+    'ADVANCED/SEMESTERS': '/advanced/semesters',
+    'ADVANCED/GENERATIONS': '/advanced/generations',
+    'ADMINISTRATION/PERMISSIONS': '/administration/permissions',
+    'ADMINISTRATION/DEPARTMENTS': '/administration/departments'
 }
 
+// authenticated only
+/** @type {Array<{id: string; text: string; linkNotExists?: boolean; icon: any; element?: any; appRouteLinkTo?: string; authorization?: { include: import("../typings/permissions").permsTypeOptional, required: import("../typings/permissions").permsTypeOptional, perms: import("../typings/permissions").permsType, requiredSuperuser: boolean }; children?: Array<{id: string; text: string; appRouteLinkTo: string; element?: string; authorization?: { include: import("../typings/permissions").permsTypeOptional, required: import("../typings/permissions").permsTypeOptional, perms: import("../typings/permissions").permsType, requiredSuperuser: boolean }}>}>} */
 export const routes = [
     {
         id: 'dashboard',
@@ -34,6 +41,11 @@ export const routes = [
         text: 'Học sinh',
         icon: <icon.LocalLibrary />,
         appRouteLinkTo: "students",
+        authorization: {
+            include: {
+                students: ['MANAGE_ALL_STUDENTS', 'MANAGE_OWN_STUDENTS']
+            }
+        }
     },
     {
         id: 'teachers',
@@ -46,7 +58,11 @@ export const routes = [
                 text: 'Danh sách',
                 appRouteLinkTo: "teachers/list",
                 element: <Dashboard />,
-
+                authorization: {
+                    required: {
+                        teachers: ['MANAGE_TEACHERS']
+                    }
+                }
             },
             {
                 id: 'teaching_subjects',
@@ -97,6 +113,57 @@ export const routes = [
             }
         ]
     },
+    {
+        id: 'advanced',
+        linkNotExists: true,
+        text: 'Nâng cao',
+        icon: <icon.Layers />,
+        children: [
+            {
+                id: 'subjects',
+                appRouteLinkTo: 'advanced/subjects',
+                text: 'Môn học',
+                element: <Dashboard />
+            },
+            {
+                id: 'semesters',
+                appRouteLinkTo: 'advanced/semesters',
+                text: 'Học kỳ',
+                element: <Dashboard />
+            },
+            {
+                id: 'generations',
+                appRouteLinkTo: 'advanced/generations',
+                text: 'Năm học',
+                element: <Dashboard />
+            },
+        ]
+    },
+    {
+        id: 'administration',
+        linkNotExists: true,
+        text: 'Quản trị',
+        icon: <icon.Settings />,
+        children: [
+            {
+                id: 'permissions',
+                appRouteLinkTo: 'administration/permissions',
+                text: 'Phân quyền',
+                element: <Dashboard />,
+                authorization: {
+                    required: {
+                        staff: ['MANAGE_STAFF']
+                    }
+                }
+            },
+            {
+                id: 'departments',
+                appRouteLinkTo: 'administration/departments',
+                text: 'Phòng ban',
+                element: <Dashboard />
+            }
+        ]
+    }
 ]
 
 export const router = createBrowserRouter(
@@ -104,14 +171,14 @@ export const router = createBrowserRouter(
         <>
             <Route path="/" element={<Root />} />
             <Route path={APP_ROUTES.LOGIN} element={<AuthLogin />} />
-            <Route element={<ProtectedRoute><MainLayout /></ProtectedRoute>}>
+            <Route element={<MainLayout />}>
                 {routes.map(v => {
                     if (v?.children?.length > 0 || !v.appRouteLinkTo) {
                         return (<Route key={v.id}>
-                            {v.children.map(child => <Route key={child.appRouteLinkTo} path={APP_ROUTES[child.appRouteLinkTo.toUpperCase()]} element={child?.element || <></>} />)}
+                            {v.children.map(child => <Route key={child.appRouteLinkTo} path={APP_ROUTES[child.appRouteLinkTo.toUpperCase()]} element={<ProtectedRoute authorization={child?.authorization || null}>{child?.element}</ProtectedRoute> || <></>} />)}
                         </Route>)
                     } else {
-                        return <Route key={v.id} path={APP_ROUTES[v.appRouteLinkTo.toUpperCase()]} element={v?.element || <></>} />
+                        return <Route key={v.id} path={APP_ROUTES[v.appRouteLinkTo.toUpperCase()]} element={<ProtectedRoute authorization={v?.authorization || null}>{v?.element}</ProtectedRoute> || <></>} />
                     }
                 })}
             </Route>

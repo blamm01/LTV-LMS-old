@@ -1,5 +1,3 @@
-import mongoose from "mongoose";
-
 const permsArray = [
   "MANAGE_ALL_STUDENTS",
   "MANAGE_OWN_STUDENTS",
@@ -90,15 +88,15 @@ export const defaultPerm = {
 }
 
 export const mongooseSchemaPerms = {
-  students: [{ type: Array, enum: allPermsList.students }],
-  teachers: [{ type: Array, enum: allPermsList.teachers }],
-  staff: [{ type: Array, enum: allPermsList.staff }],
-  classes: [{ type: Array, enum: allPermsList.classes }],
-  grades: [{ type: Array, enum: allPermsList.grades }],
-  subjects: [{ type: Array, enum: allPermsList.subjects }],
-  scores: [{ type: Array, enum: allPermsList.scores }],
-  generations: [{ type: Array, enum: allPermsList.generations }],
-  semesters: [{ type: Array, enum: allPermsList.semesters }],
+  students: { type: [String], enum: allPermsList.students },
+  teachers: { type: [String], enum: allPermsList.teachers },
+  staff: { type: [String], enum: allPermsList.staff },
+  classes: { type: [String], enum: allPermsList.classes },
+  grades: { type: [String], enum: allPermsList.grades },
+  subjects: { type: [String], enum: allPermsList.subjects },
+  scores: { type: [String], enum: allPermsList.scores },
+  generations: { type: [String], enum: allPermsList.generations },
+  semesters: { type: [String], enum: allPermsList.semesters },
 };
 
 export const perms_explanation = {

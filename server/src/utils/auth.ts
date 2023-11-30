@@ -107,6 +107,7 @@ export const getPermissions = async (
       "PERMISSION_DATA_NOT_EXIST"
     );
   }
+  console.log(permission)
   return {
     permObj: permission.permObj,
     superuser: permission.superuser,
@@ -119,7 +120,7 @@ export const checkPerms = (
   perms: permsType,
   requiredSuperuser: boolean = false,
   isSuperuser: boolean = false
-) => {
+): boolean => {
   let passed = true;
   if (isSuperuser) return true;
   if(requiredSuperuser && !isSuperuser) return false

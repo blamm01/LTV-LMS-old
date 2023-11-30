@@ -3,26 +3,14 @@ import { useLocalStorage } from "../hooks/useLocalStorage";
 import axios from "axios";
 import { API_ROUTES } from "../constants/api";
 import _ from "lodash";
+import { defaultPerm } from "../typings/permissions";
 
 const initialValue = {
     authenticated: false,
     session: null,
     user: null,
     token: "",
-    permissions: {
-        permObj: {
-            students: [],
-            teachers: [],
-            staff: [],
-            classes: [],
-            grades: [],
-            subjects: [],
-            scores: [],
-            generations: [],
-            semesters: []
-        },
-        superuser: false
-    }
+    permissions: defaultPerm
 }
 
 const authContextInitVal = {
@@ -47,7 +35,7 @@ export const AuthProvider = ({ children }) => {
                 }
             }).then((response) => {
                 let data = response.data
-                if (!_.isEqual(data?.user, auth.user) || !_.isEqual(data?.session, auth.session)) setAuth({
+                if (!_.isEqual(data?.user, auth.user) || !_.isEqual(data?.session, auth.session) || !_.isEqual(data?.permissions, auth.permissions)) setAuth({
                     authenticated: true,
                     session: data?.session,
                     user: data?.user,
