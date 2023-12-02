@@ -13,7 +13,7 @@
       "quotes": ["error", "double"],
       "react/react-in-jsx-scope": "off",
       "react/jsx-uses-react": "off",
-      "no-empty": "warn"
+      "no-empty": "off"
     },
     "parserOptions": {
       "ecmaVersion": 2021,
