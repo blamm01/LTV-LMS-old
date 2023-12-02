@@ -80,7 +80,7 @@ function SidebarListItem({
           {icon}
         </ListItemIcon>
         <ListItemText primary={text} disableTypography={true} />
-        {parentHasChildren ? (
+        {parentHasChildren && (!currentPathId.startsWith(id) || !activeItem.startsWith(id)) ? (
           !isParentSelected ? (
             <ExpandMore />
           ) : (

@@ -52,17 +52,17 @@ export const routes = [
     linkNotExists: true,
     text: "Giáo viên",
     icon: <icon.Group />,
+    authorization: {
+      required: {
+        teachers: ["MANAGE_TEACHERS"]
+      }
+    },
     children: [
       {
         id: "list",
         text: "Danh sách",
         appRouteLinkTo: "teachers/list",
         element: <Dashboard />,
-        authorization: {
-          required: {
-            teachers: ["MANAGE_TEACHERS"]
-          }
-        }
       },
       {
         id: "teaching_subjects",

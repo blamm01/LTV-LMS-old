@@ -1,8 +1,9 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { AuthContext } from "../context/AuthProvider";
 import { APP_ROUTES } from "../routes";
 import { checkPerms } from "../utils/checkPerms";
+import TopCenterSnackbar from "./Snackbar.jsx";
 
 export default function ProtectedRoute({ children, authorization }) {
   const { auth } = useContext(AuthContext);
@@ -26,7 +27,10 @@ export default function ProtectedRoute({ children, authorization }) {
       authorization.requiredSuperuser,
       auth.permissions.superuser || false
     );
-    if (!passed) return <h1>You are not allowed to access this resource</h1>;
+    if (!passed) {
+      const [open, setOpen] = useState(true);
+      return <TopCenterSnackbar setOpen={setOpen} open={open} severity={"error"} text={"Bạn không được phép truy cập vào tài nguyên này."} />
+    }
     else return children;
   }
 }

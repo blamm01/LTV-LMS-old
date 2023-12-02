@@ -1,14 +1,14 @@
-import * as React from "react";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import Toolbar from "@mui/material/Toolbar";
 import { Outlet } from "react-router-dom";
 import Sidebar from "./Sidebar.jsx";
+import { useState } from "react";
 
 export default function MainLayout(props) {
   const drawerWidth = 256;
   const { window } = props;
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false)
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);

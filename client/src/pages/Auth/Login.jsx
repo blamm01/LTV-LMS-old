@@ -44,7 +44,7 @@ export default function AuthLogin() {
     if (prevState?.previous?.pathname) {
       setSnackbar({
         severity: "info",
-        text: prevState?.message || "Bạn cần đăng nhập để tiếp tục",
+        text: prevState?.message || "Bạn cần đăng nhập để tiếp tục.",
       });
       setSnackbarOpened(true);
     }
@@ -63,12 +63,12 @@ export default function AuthLogin() {
         )
           setSnackbar({
             severity: "error",
-            text: data?.message || "Lỗi không xác định",
+            text: data?.message || "Lỗi không xác định.",
           }) && setIsLoggingIn(false);
         else {
           setSnackbar({
             severity: "info",
-            text: "Đang chuyển hướng",
+            text: "Đang chuyển hướng...",
           });
           setAuth({
             authenticated: true,
@@ -89,7 +89,7 @@ export default function AuthLogin() {
           severity: "error",
           text:
             error?.response?.data?.message ||
-            "Lỗi không xác định khi yêu cầu lên máy chủ",
+            "Lỗi không xác định khi yêu cầu lên máy chủ.",
         });
         setSnackbarOpened(true);
         setIsLoggingIn(false);
