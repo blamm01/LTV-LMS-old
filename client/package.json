@@ -22,16 +22,12 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "yarn lint && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "start:prod": "NODE_ENV=production serve -s build" 
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "start:prod": "NODE_ENV=production serve -s build",
+    "lint": "eslint \"src/**/*.{js,jsx}\"",
+    "lint:fix": "eslint \"src/**/*.{js,jsx}\" --fix"
   },
   "browserslist": {
     "production": [
@@ -46,6 +42,11 @@
     ]
   },
   "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "eslint": "^8.55.0",
+    "eslint-plugin-import": "^2.29.0",
+    "eslint-plugin-jsx-a11y": "^6.8.0",
+    "eslint-plugin-react": "^7.33.2",
+    "serve": "^14.2.1"
   }
 }

@@ -1,0 +1,5 @@
+LTV UUID:
+- users: user_{username}_{randomObjectID}
+- sessions: session_{username}_{ipAddr}_{randomObjectID}
+- staff departments: staff_department_{name}_{randomObjectID}
+- permissions: permission_{belongTo}_{randomObjectID}

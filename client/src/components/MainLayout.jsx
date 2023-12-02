@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import Toolbar from "@mui/material/Toolbar";
 import { Outlet } from "react-router-dom";
-import Sidebar from "./Sidebar";
+import Sidebar from "./Sidebar.jsx";
 
 export default function MainLayout(props) {
   const drawerWidth = 256;

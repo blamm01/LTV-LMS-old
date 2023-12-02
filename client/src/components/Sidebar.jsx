@@ -93,7 +93,7 @@ function SidebarListItem({
           <List component="div" disablePadding>
             {children
               .filter((v) => !v?.hideInSidebar)
-              .map((v, i) => {
+              .map((v) => {
                 return (
                   <ListItemButton
                     key={v.appRouteLinkTo}
@@ -161,10 +161,11 @@ export default function Sidebar({
               appRouteLinkTo={obj.appRouteLinkTo}
               text={obj.text}
               icon={obj.icon}
-              children={obj?.children?.length > 0 ? obj.children : []}
               currentPathId={currentPathId}
               mainReRenderedActiveItem={activeItem}
-            />
+            >
+              {obj?.children?.length > 0 ? obj.children : []}
+            </SidebarListItem>
           ))}
       </List>
     </Box>

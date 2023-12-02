@@ -4,7 +4,7 @@ import { useState, useContext, useEffect } from "react";
 import { Box } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { LoadingButton } from "@mui/lab";
-import TopCenterSnackbar from "../../components/Snackbar";
+import TopCenterSnackbar from "../../components/Snackbar.jsx";
 import axios from "axios";
 import "../../styles/Auth/Root.css"
 import { API_ROUTES } from "../../constants/api";
